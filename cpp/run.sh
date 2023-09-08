@@ -13,5 +13,15 @@ fi
 source_file="$1"
 binary_file="$BUILD_DIR/$source_file.out"
 mkdir -p "$BUILD_DIR"
-clang++ -std=c++17 -o "$binary_file" "$source_file"
+clang++ \
+    -o "$binary_file" \
+    -std=c++17 \
+    -g \
+    -O1 \
+    -fsanitize=address \
+    -fno-omit-frame-pointer \
+    -fno-optimize-sibling-calls \
+    -fsanitize-address-use-after-return=always \
+    -fsanitize-address-use-after-scope \
+    "$source_file"
 "$binary_file"
