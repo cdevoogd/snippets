@@ -1,12 +1,31 @@
-#!/usr/bin/env bash
-# shellcheck disable=SC2034
+## Shell Colors
 
+
+### Printing Colored Text
+
+When printing colored text, make sure you end messages with the 'reset' escape sequence to stop the color from continuing past the message and affecting future messages.
+
+```bash
 color_msg() {
     local color="$1"
     local msg="$2"
     printf "%b%s%b\n" "$color" "$msg" "$RESET"
 }
+```
 
+You can also use `echo` to print colors, but you need to use the `-e` flag to set the command to escape backslashes.
+
+```bash
+color_msg() {
+    local color="$1"
+    local msg="$2"
+    echo -e "${color}${msg}${RESET}
+}
+```
+
+### Escape Sequences
+
+```bash
 # Reset color back to normal
 RESET="\033[0m"
 
@@ -96,3 +115,4 @@ BACKGROUND_HI_PURPLE='\033[0;105m'
 BACKGROUND_HI_RED='\033[0;101m'
 BACKGROUND_HI_WHITE='\033[0;107m'
 BACKGROUND_HI_YELLOW='\033[0;103m'
+```
