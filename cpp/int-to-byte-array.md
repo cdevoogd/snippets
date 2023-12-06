@@ -1,6 +1,10 @@
-#include <array>
-#include <iostream>
+## Converting Between an Integer and a Byte Array
 
+Some protocols require the length of a message to be set as bytes in the beginning of a message. These snippets show how to split an integer to bytes in a byte array and vice versa.
+
+### Integer to Bytes
+
+```c++
 /*
 Given a byte array and a length, this populates the first 4 bytes of the byte array with the
 given length. Array must be pointer to a byte array with a length of at least 4. This function
@@ -40,7 +44,11 @@ void construct_byte_array(unsigned char* array, const size_t length) {
     array[2] = (length >> 8) & 0xFF;
     array[3] = length & 0xFF;
 }
+```
 
+### Byte Array to Integer
+
+```c++
 /*
 Given a byte array, this will read the first 4 bytes and convert it to an integer equal to the
 length of the message.
@@ -81,6 +89,14 @@ size_t parse_byte_array(unsigned char* array) {
     }
     return length;
 }
+```
+
+### Example Run
+
+The comments on the functions above should hopefully explain how the bitshifting works. Here is an example program that uses the functions above and its output.
+
+```c++
+// This uses the functions above in addition to the functions in this snippet
 
 void print_binary(const int num) {
     std::cout << std::bitset<32>(num) << " (" << num << ")" << std::endl;
@@ -107,3 +123,13 @@ int main() {
 
     return 0;
 }
+```
+
+Program output:
+
+```
+$ clang++ -o /tmp/test -std=c++17 int-to-byte-array.cpp && /tmp/test
+00001110010010111011001010001000 (239841928)
+00001110 01001011 10110010 10001000
+00001110010010111011001010001000 (239841928)
+```
