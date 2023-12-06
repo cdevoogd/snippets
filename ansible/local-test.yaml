@@ -1,8 +1,0 @@
----
-- hosts: localhost
-  connection: local
-  tasks:
-    # Here you can add your tasks that you want to test
-    # You can run the playbook with `ansible-playbook <path>`. You will see a couple warnings since
-    # there is no inventory file or anything, but this is a quick way to test tasks locally.
-    - shell: echo 'hello world'
