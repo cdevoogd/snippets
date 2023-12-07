@@ -4,7 +4,7 @@ Some protocols require the length of a message to be set as bytes in the beginni
 
 ### Integer to Bytes
 
-```c++
+```cpp
 /*
 Given a byte array and a length, this populates the first 4 bytes of the byte array with the
 given length. Array must be pointer to a byte array with a length of at least 4. This function
@@ -48,7 +48,7 @@ void construct_byte_array(unsigned char* array, const size_t length) {
 
 ### Byte Array to Integer
 
-```c++
+```cpp
 /*
 Given a byte array, this will read the first 4 bytes and convert it to an integer equal to the
 length of the message.
@@ -95,7 +95,7 @@ size_t parse_byte_array(unsigned char* array) {
 
 The comments on the functions above should hopefully explain how the bitshifting works. Here is an example program that uses the functions above and its output.
 
-```c++
+```cpp
 // This uses the functions above in addition to the functions in this snippet
 
 void print_binary(const int num) {
