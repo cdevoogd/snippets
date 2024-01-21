@@ -1,4 +1,6 @@
-## Gzip Compression and Decompression
+---
+title: Gzip Compression
+---
 
 ```go
 package gzip

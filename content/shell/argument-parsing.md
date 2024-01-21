@@ -1,4 +1,6 @@
-## Argument Parsing
+---
+title: Argument Parsing
+---
 
 Below is an example script that shows how to parse command-line flags in bash. Included is a help flag, a flag for toggling and option, and a flag that's used to pass additional information like a file path (or in the examples case a tag). The example also demonstrates how to properly handle shifting and checking arguments to prevent errors when using the `set -u` option in bash.
 

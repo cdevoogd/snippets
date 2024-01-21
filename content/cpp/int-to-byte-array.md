@@ -1,8 +1,10 @@
-## Converting Between an Integer and a Byte Array
+---
+title: Converting Between an Integer and a Byte Array
+---
 
 Some protocols require the length of a message to be set as bytes in the beginning of a message. These snippets show how to split an integer to bytes in a byte array and vice versa.
 
-### Integer to Bytes
+## Integer to Bytes
 
 ```cpp
 /*
@@ -46,7 +48,7 @@ void construct_byte_array(unsigned char* array, const size_t length) {
 }
 ```
 
-### Byte Array to Integer
+## Byte Array to Integer
 
 ```cpp
 /*
@@ -91,7 +93,7 @@ size_t parse_byte_array(unsigned char* array) {
 }
 ```
 
-### Example Run
+## Example Run
 
 The comments on the functions above should hopefully explain how the bitshifting works. Here is an example program that uses the functions above and its output.
 

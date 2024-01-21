@@ -1,4 +1,6 @@
-## Print Container Bind Mounts
+---
+title: Print Container Bind Mounts
+---
 
 The following script will print the bind mounts of all currently running containers.
 

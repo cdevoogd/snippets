@@ -1,0 +1,38 @@
+title: Snippets
+pluralizeListTitles: false
+module:
+  imports:
+  - path: github.com/imfing/hextra
+markup:
+  highlight:
+    noClasses: false
+  goldmark:
+    renderer:
+      unsafe: true
+menu:
+  main:
+    - name: Home
+      pageRef: /
+      weight: 1
+    - name: GitHub ↗
+      url: "https://github.com/cdevoogd/snippets"
+      weight: 2
+    - name: Search
+      weight: 3
+      params:
+        type: search
+params:
+  navbar:
+    displayTitle: true
+    displayLogo: false
+  footer:
+    displayCopyright: false
+    displayPoweredBy: false
+  theme: # https://imfing.github.io/hextra/docs/guide/configuration/#theme-configuration
+    default: dark
+    displayToggle: false
+  page: # https://imfing.github.io/hextra/docs/guide/configuration/#page-width
+    width: wide
+  editURL:
+    enable: true
+    base: "https://github.com/cdevoogd/snippets/edit/main/content"

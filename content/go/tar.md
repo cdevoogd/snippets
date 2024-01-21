@@ -1,4 +1,6 @@
-## Tar Archive Creation and Extraction
+---
+title: Tarball Creation & Extraction
+---
 
 ```go
 package tar

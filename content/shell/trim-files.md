@@ -1,4 +1,6 @@
-## Trim Files
+---
+title: Trimming Files
+---
 
 Using the `head` and `tail` commands, you can quickly trim files down. This may be useful for something like a long log file where you only care about the logs after some specific line.
 

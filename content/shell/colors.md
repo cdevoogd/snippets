@@ -1,7 +1,9 @@
-## Shell Colors
+---
+title: Shell Colors
+---
 
 
-### Printing Colored Text
+## Printing Colored Text
 
 When printing colored text, make sure you end messages with the 'reset' escape sequence to stop the color from continuing past the message and affecting future messages.
 
@@ -23,7 +25,7 @@ color_msg() {
 }
 ```
 
-### Escape Sequences
+## Escape Sequences
 
 ```bash
 # Reset color back to normal

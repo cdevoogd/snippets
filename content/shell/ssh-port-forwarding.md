@@ -1,7 +1,8 @@
-## SSH Port Forwarding
+---
+title: SSH Port Forwarding
+---
 
-
-### Local Port Forwarding
+## Local Port Forwarding
 
 Local port forwarding is the method that is used most commonly. It involves the SSH client listening on a port on your local machine and forwarding all traffic to a port on the remote machine you SSH-ed in to.
 
@@ -19,7 +20,7 @@ ssh -L 8080:localhost:80 user@server
 
 This tells SSH to forward all traffic from port 8080 on the local machine to `localhost:80` on the server which will allow you to connect to that service that is listening on localhost. One thing of note is that in the command above, the local address is omitted. Typically this means that the SSH client will listen on `localhost`, but that does depend on the [`GatewayPorts` setting in your SSH config](https://linux.die.net/man/5/sshd_config).
 
-### Local Port Forwarding Through an Intermediate Host
+## Local Port Forwarding Through an Intermediate Host
 
 Sometimes you may need to can't SSH directly to a server that's hosting a service and instead need to use some sort of intermediate host to reach the server (jump host, bastion host, etc.). This is possible to do when port forwarding over SSH. In this case, lets say that we have **a local machine, an intermediate host, and a remote server** where we need to connect through the intermediate host and the remote server is what is hosting the service.
 
@@ -43,7 +44,7 @@ ssh -L 9090:localhost:80 user@remote
 The first command will forward port 8080 on the local machine to 9090 on the intermediate machine. The second command will then forward 9090 on the intermediate machine to port 80 on the remote server. When these commands are run together, it helps to create a path for the connection to get forwarded all the way to the remote server.
 
 
-### Remote Port Forwarding
+## Remote Port Forwarding
 
 Sometimes you may need to expose a service that's running locally to some external server. The syntax for remote port forwarding is:
 
@@ -65,7 +66,7 @@ You could also use your local machine as an intermediate host to allow access to
 ssh -R 0.0.0.0:8080:home-server:80 user@remote-server
 ```
 
-### Forwarding in the Background
+## Forwarding in the Background
 
 If you just pass the `-L` or `-R` flags to `ssh`, it will open a normal SSH session while also forwarding the ports. This, however, is typically not what people want. If you are running the command only to forward a port, you can pass the `-N` flag to signal `ssh` to not execute any commands. This will cause the SSH command to just forward the port without opening a session, but it will still stay in the foreground of the terminal window.
 

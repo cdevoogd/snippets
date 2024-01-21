@@ -1,7 +1,5 @@
 .*
-!.gitignore
-!.clang-format
-!.clangd
+public/
+resources/
 
-**/build
-**/output
+!.gitignore

@@ -1,8 +1,10 @@
-## Read and Process Line by Line
+---
+title: Read Data Line-by-Line
+---
 
 There are a few different methods to process a file or command output line by line. In addition to this document, [this Bash FAQ page](https://mywiki.wooledge.org/BashFAQ/001) has a ton of good information about this (and other topics).
 
-### Reading From a File
+## Reading From a File
 
 ```bash
 file="/tmp/some-file.txt"
@@ -11,7 +13,7 @@ while IFS= read -r line; do
 done < "$file"
 ```
 
-### Reading From a Variable
+## Reading From a Variable
 
 ```bash
 variable="foo"$'\n'"bar"
@@ -20,7 +22,7 @@ while IFS= read -r line; do
 done <<< "$variable"
 ```
 
-### Reading From a Here-Document
+## Reading From a Here-Document
 
 ```bash
 while IFS= read -r line; do
@@ -31,7 +33,7 @@ world
 EOF
 ```
 
-### Reading Output From a Command
+## Reading Output From a Command
 
 This approach will use a subshell which means that if you try to change state in the script it won't
 work.
