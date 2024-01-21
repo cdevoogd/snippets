@@ -49,11 +49,17 @@ jobs:
           key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-hugomod-
 
+      # This step will should give the correct site URL to build Hugo with. If the repository is
+      # configured to use custom domains, it should return that instead of the default pages URL.
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
-        run: make build
+        run: hugo  --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
