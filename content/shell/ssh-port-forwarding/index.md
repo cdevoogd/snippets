@@ -18,7 +18,10 @@ Say that you have a service running on a remote server that listens on `localhos
 ssh -L 8080:localhost:80 user@server
 ```
 
+
 This tells SSH to forward all traffic from port 8080 on the local machine to `localhost:80` on the server which will allow you to connect to that service that is listening on localhost. One thing of note is that in the command above, the local address is omitted. Typically this means that the SSH client will listen on `localhost`, but that does depend on the [`GatewayPorts` setting in your SSH config](https://linux.die.net/man/5/sshd_config).
+
+![](local-to-remote.png)
 
 ## Local Port Forwarding Through an Intermediate Host
 
@@ -31,6 +34,8 @@ ssh -L 8080:server:80 user@intermediate
 ```
 
 This will listen for traffic on port 8080 on the local machine, forward it to the intermediate host, and then send the traffic to `server:80` from the intermediate host.
+
+![](local-to-remote-with-intermediate.png)
 
 If the service is not directly reachable from the intermediate host (e.g. it's only listening on localhost on the remote server) then you can port forward twice to get the connection through: first from the local machine to the intermediate host, and then from the intermediate host to the remote server.
 
@@ -60,11 +65,17 @@ If `GatewayPorts` is enabled, you could do the following to forward all traffic 
 ssh -R 0.0.0.0:8080:localhost:80 user@server
 ```
 
+![](remote-to-local.png)
+
+## Remote Port Forwarding Through an Intermediate Host
+
 You could also use your local machine as an intermediate host to allow access to a private network or something similar by forwarding traffic to another host on the network. The following command could be used to forward traffic from a remote server to a home server on your private network using your local machine as a jump host:
 
 ```bash
 ssh -R 0.0.0.0:8080:home-server:80 user@remote-server
 ```
+
+![](remote-to-local-with-intermediate.png)
 
 ## Forwarding in the Background
 
