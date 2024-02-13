@@ -35,4 +35,4 @@ params:
     width: wide
   editURL:
     enable: true
-    base: "https://github.com/cdevoogd/snippets/edit/main/content"
+    base: "https://github.com/cdevoogd/snippets/edit/master/content"
