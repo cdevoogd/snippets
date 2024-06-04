@@ -14,7 +14,7 @@ TAG=
 
 print_usage() {
     echo "USAGE:"
-    echo "  $0 [OPTIONS...]"
+    echo "  $(basename $0) [OPTIONS...]"
     echo
     echo "OPTIONS:"
     echo "  -h, --help            Print this help message"
@@ -29,10 +29,11 @@ handle_missing_arg() {
 }
 
 parse_arguments() {
-    while [ $# -ne 0 ] && [ "$1" != "" ]; do
+    while [[ $# -ne 0 ]] && [[ "$1" != "" ]]; do
         case $1 in
         -h | --help)
             print_usage
+            exit
             ;;
         # An example of a boolean flag. This flag would not have anything following.
         --skip-verification)
@@ -61,13 +62,6 @@ parse_arguments() {
 }
 
 main() {
-    # In this example, the script requires that arguments be passed
-    # If there are none, print the help text and exit
-    if [ $# -eq 0 ]; then
-        print_usage
-        exit 1
-    fi
-
     parse_arguments "$@"
     echo "SKIP_VERIFICATION: $SKIP_VERIFICATION"
     echo "TAG: $TAG"
