@@ -14,7 +14,7 @@ TAG=
 
 print_usage() {
     echo "USAGE:"
-    echo "  $(basename $0) [OPTIONS...]"
+    echo "  $(basename "$0") [OPTIONS...]"
     echo
     echo "OPTIONS:"
     echo "  -h, --help            Print this help message"
@@ -46,7 +46,7 @@ parse_arguments() {
             # Make sure the user actually passed a value
             if [[ $# -eq 0 ]]; then handle_missing_arg "tag"; fi
             # Now we can set it
-            TAG=$1
+            TAG="$1"
             ;;
         # This wildcard would catch any flag that has not already been caught.
         # If it wasn't handled, that means it's probably an unknown flag.
