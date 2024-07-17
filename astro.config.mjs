@@ -26,6 +26,9 @@ export default defineConfig({
         ThemeProvider: "./src/components/ThemeProvider.astro",
         ThemeSelect: "./src/components/ThemeSelect.astro",
       },
+      expressiveCode: {
+        themes: ["catppuccin-mocha", "catppuccin-latte"],
+      },
       sidebar: [
         sidebarDir("Ansible", "ansible"),
         sidebarDir("Caddy", "caddy"),
