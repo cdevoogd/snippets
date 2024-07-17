@@ -13,6 +13,7 @@ function sidebarDir(name, path) {
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://snippets.cdevoogd.com",
   integrations: [
     starlight({
       title: "Snippets",
