@@ -17,6 +17,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Snippets",
+      pagination: false,
       social: {
         github: "https://github.com/cdevoogd/snippets",
       },
