@@ -21,7 +21,7 @@ You can also use `echo` to print colors, but you need to use the `-e` flag to se
 color_msg() {
     local color="$1"
     local msg="$2"
-    echo -e "${color}${msg}${RESET}
+    echo -e "${color}${msg}${RESET}"
 }
 ```
 
