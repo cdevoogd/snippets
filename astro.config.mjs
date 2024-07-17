@@ -20,6 +20,10 @@ export default defineConfig({
         github: "https://github.com/cdevoogd/snippets",
       },
       customCss: ["./src/styles/custom.css"],
+      components: {
+        ThemeProvider: "./src/components/ThemeProvider.astro",
+        ThemeSelect: "./src/components/ThemeSelect.astro",
+      },
       sidebar: [
         sidebarDir("Ansible", "ansible"),
         sidebarDir("Caddy", "caddy"),
