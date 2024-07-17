@@ -19,6 +19,7 @@ export default defineConfig({
       social: {
         github: "https://github.com/cdevoogd/snippets",
       },
+      customCss: ["./src/styles/custom.css"],
       sidebar: [
         sidebarDir("Ansible", "ansible"),
         sidebarDir("Caddy", "caddy"),
