@@ -8,7 +8,7 @@ References:
 - [Caddyfile Ooptions](https://caddyserver.com/docs/caddyfile/options)
 - [Caddy: Automatic HTTPS](https://caddyserver.com/docs/automatic-https)
 
-```caddyfile
+```
 # You can have one global options block per Caddyfile.
 {
     # 'off' will disable HTTPS entirely (no cert management or redirects)

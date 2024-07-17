@@ -1,6 +1,7 @@
 .*
-public/
-resources/
+*.log
+dist
+output
+node_modules
 
 !.gitignore
-!.github
