@@ -1,6 +1,7 @@
 ---
 title: JWT None Algorithm
 ---
+import JWT from '../../../components/JWT.astro'
 
 Below is a script that will take in a JSON web token, remove the signature, and change the header so that it is "signed" with the `none` algorithm. This can be used to create JWTs for testing if APIs are vulnerable to none algorithm attacks.
 
@@ -34,3 +35,5 @@ echoerr "   $new_header_decoded"
 echoerr
 echo "$new_header.$original_payload."
 ```
+
+<JWT/>

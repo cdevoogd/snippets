@@ -1,0 +1,57 @@
+<h1>JWT</h1>
+<form id="jwtForm">
+  <label>
+    Encoded Token:
+    <input type="text" id="encodedToken" />
+  </label>
+  <button>Submit</button>
+</form>
+<br>
+<h3>Header</h3>
+<pre><code id="headerOutput" /></pre>
+<br>
+<h3>Payload</h3>
+<pre><code id="payloadOutput" /></pre>
+<h3>Re-Encoded</h3>
+<pre><code id="encodedOutput" /></pre>
+
+<script>
+
+import {JWT} from "../utils/jwt"
+
+function onSubmit(e: Event) {
+  e.preventDefault()
+
+  const tokenInput = document.getElementById("encodedToken") as HTMLInputElement
+  if (!tokenInput) {
+    console.error("Failed to query encoded token")
+    return
+  }
+
+  let jwt: JWT | null = null
+  try {
+    jwt = new JWT(tokenInput.value)
+  } catch (e) {
+    console.error(e)
+    return
+  }
+
+  const headerOutput = document.getElementById("headerOutput")
+  const payloadOutput = document.getElementById("payloadOutput")
+  const encodedOutput = document.getElementById("encodedOutput")
+  if (!headerOutput || !payloadOutput || !encodedOutput) {
+    console.error("failed to query output fields")
+    return
+  }
+  headerOutput.textContent = JSON.stringify(jwt.header, null, 2)
+  payloadOutput.textContent = JSON.stringify(jwt.payload, null, 2)
+  encodedOutput.textContent = jwt.toString()
+}
+
+const form = document.getElementById("jwtForm")
+if (form) {
+  form.addEventListener('submit', onSubmit)
+} else {
+  console.error("Failed to query JWT form")
+}
+</script>
