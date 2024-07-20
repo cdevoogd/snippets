@@ -1,19 +1,52 @@
 <h1>JWT</h1>
 <form id="jwtForm">
-  <label>
-    Encoded Token:
-    <input type="text" id="encodedToken" />
-  </label>
   <button>Submit</button>
 </form>
-<br>
-<h3>Header</h3>
-<pre><code id="headerOutput" /></pre>
-<br>
-<h3>Payload</h3>
-<pre><code id="payloadOutput" /></pre>
-<h3>Re-Encoded</h3>
-<pre><code id="encodedOutput" /></pre>
+
+<div id="jwtTool">
+  <div id="jwtEncoded" contenteditable="true" class="contentBox inputBox"></div>
+  <div id="jwtDecoded">
+    <div id="headerOutput" class="contentBox outputBox"></div>
+    <div id="payloadOutput" class="contentBox outputBox"></div>
+  </div>
+</div>
+
+<style>
+  #jwtTool {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  #jwtTool > * {
+    flex: 1 1 auto;
+  }
+
+  #jwtDecoded {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contentBox {
+    /* Two monospaces stops the browser from shrinking the text (why?) */
+    font-family: monospace, monospace;
+
+    border: 1px solid white;
+    border-radius: 6px;
+
+    min-width: 20rem;
+    min-height: 15rem;;
+
+    overflow-y: scroll;
+    padding: 1rem;
+  }
+
+  .outputBox {
+    text-wrap: nowrap;
+    white-space: pre;
+  }
+</style>
 
 <script>
 
@@ -22,7 +55,7 @@ import {JWT} from "../utils/jwt"
 function onSubmit(e: Event) {
   e.preventDefault()
 
-  const tokenInput = document.getElementById("encodedToken") as HTMLInputElement
+  const tokenInput = document.getElementById("jwtEncoded")
   if (!tokenInput) {
     console.error("Failed to query encoded token")
     return
@@ -30,7 +63,7 @@ function onSubmit(e: Event) {
 
   let jwt: JWT | null = null
   try {
-    jwt = new JWT(tokenInput.value)
+    jwt = new JWT(tokenInput.innerText)
   } catch (e) {
     console.error(e)
     return
@@ -38,14 +71,12 @@ function onSubmit(e: Event) {
 
   const headerOutput = document.getElementById("headerOutput")
   const payloadOutput = document.getElementById("payloadOutput")
-  const encodedOutput = document.getElementById("encodedOutput")
-  if (!headerOutput || !payloadOutput || !encodedOutput) {
+  if (!headerOutput || !payloadOutput) {
     console.error("failed to query output fields")
     return
   }
   headerOutput.textContent = JSON.stringify(jwt.header, null, 2)
   payloadOutput.textContent = JSON.stringify(jwt.payload, null, 2)
-  encodedOutput.textContent = jwt.toString()
 }
 
 const form = document.getElementById("jwtForm")
