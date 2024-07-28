@@ -1,6 +1,6 @@
-import { defineConfig } from "astro/config";
-import starlight from "@astrojs/starlight";
-
+import { defineConfig } from "astro/config"
+import starlight from "@astrojs/starlight"
+import tailwind from "@astrojs/tailwind"
 function sidebarDir(name, path) {
   return {
     label: name,
@@ -8,7 +8,7 @@ function sidebarDir(name, path) {
     autogenerate: {
       directory: path,
     },
-  };
+  }
 }
 
 // https://astro.build/config
@@ -21,7 +21,7 @@ export default defineConfig({
       social: {
         github: "https://github.com/cdevoogd/snippets",
       },
-      customCss: ["./src/styles/custom.css"],
+      customCss: ["./src/styles/custom.css", "./src/styles/tailwind.css"],
       components: {
         ThemeProvider: "./src/components/ThemeProvider.astro",
         ThemeSelect: "./src/components/ThemeSelect.astro",
@@ -40,5 +40,6 @@ export default defineConfig({
         sidebarDir("Tools", "tools"),
       ],
     }),
+    tailwind({ applyBaseStyles: false }),
   ],
-});
+})
