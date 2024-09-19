@@ -34,6 +34,7 @@ export default defineConfig({
         sidebarDir("Caddy", "caddy"),
         sidebarDir("C++", "cpp"),
         sidebarDir("Docker", "docker"),
+        sidebarDir("Git", "git"),
         sidebarDir("Go", "go"),
         sidebarDir("Linux", "linux"),
         sidebarDir("Shell", "shell"),
