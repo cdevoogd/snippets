@@ -18,9 +18,9 @@ export default defineConfig({
     starlight({
       title: "Snippets",
       pagination: false,
-      social: {
-        github: "https://github.com/cdevoogd/snippets",
-      },
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/cdevoogd/snippets' },
+      ],
       customCss: ["./src/styles/custom.css"],
       components: {
         ThemeProvider: "./src/components/ThemeProvider.astro",
