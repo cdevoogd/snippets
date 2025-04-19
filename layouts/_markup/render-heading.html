@@ -1,0 +1,6 @@
+{{- /* This example comes from Hextra. Not quite sure why the id is set on the span, but it works */ -}}
+<h{{ .Level }}>
+  {{- .Text | safeHTML -}}
+  <span id="{{ .Anchor | safeURL }}"></span>
+  <a href="#{{ .Anchor | safeURL }}" class="heading-anchor" aria-label="Permalink for this section"></a>
+</h{{ .Level }}>

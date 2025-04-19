@@ -1,0 +1,453 @@
+:root {
+  --color-background: #121212;
+  --color-background-muted: #212121;
+  --color-background-highlight: #2e2e2e;
+
+  --color-text: #b5b5b5;
+  --color-text-muted: #898989;
+  --color-text-bright: #fafafa;
+
+  --color-primary: #1fd584;
+  --color-accent: #8addff;
+
+  --color-border: #2e2e2e;
+  --color-code-background: var(--color-background-muted);
+
+  --sidebar-width: 20rem;
+  --header-height: 4rem;
+  --transition-duration: 0.3s;
+
+  --font-standard: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-standard);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  color-scheme: dark;
+
+  /* Stop iOS Safari from trying to automatically scale code block text up and down */
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+#sidebar-open-btn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 1rem;
+  z-index: 99;
+
+  display: none;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  color: var(--color-background);
+  background-color: var(--color-text-bright);
+}
+
+#sidebar-close-btn {
+  display: none;
+}
+
+.sidebar {
+  /* Remove the border that gets automatically added by the popover */
+  border: 0;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  transition: transform var(--transition-duration) ease;
+}
+
+.sidebar-header {
+  height: var(--header-height);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar-header-btn {
+  height: 2em;
+  width: 2em;
+
+  color: var(--color-text-bright);
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+
+  & a {
+    color: inherit;
+  }
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text-bright);
+  text-decoration: none;
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  font-size: 0.875rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-section-name {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: var(--color-text-bright);
+
+  border: 0 none;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color: var(--color-border);
+
+  margin-top: 0.75rem;
+}
+
+.sidebar-link {
+  color: var(--color-text);
+  transition: color 0.2s;
+  text-decoration: none;
+  width: 100%;
+}
+
+.sidebar-link:hover {
+  text-decoration: none;
+  color: var(--color-text-bright);
+}
+
+.sidebar-link.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* This needs a position so that the copy button can use absolute positioning inside of it*/
+.code-block {
+  position: relative;
+}
+
+.code-block:hover .copy-code-button {
+  opacity: 100;
+}
+
+.copy-code-button {
+  align-items: center;
+  border: 1px solid var(--color-text-muted);
+  border-radius: 0.25rem;
+  color: var(--color-text);
+  display: flex;
+  height: 2rem;
+  justify-content: center;
+  margin: 0.375rem;
+  padding: 0.375rem;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background-color 0.2s;
+  transition: opacity 0.2s;
+  width: 2rem;
+}
+
+.copy-code-button:hover {
+  background-color: var(--color-background-muted);
+}
+
+.main-container {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--sidebar-width);
+  transition: margin-left var(--transition-duration) ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  max-width: min(100%, 65rem);
+  padding: 0rem 2rem 1rem 2rem;
+  margin: 0 0;
+  flex: 1;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  color: var(--color-text-bright);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.content h1 {
+  font-size: 2.25em;
+  line-height: 1.2;
+}
+
+.content h2 {
+  font-size: 1.5rem;
+}
+
+.content h3 {
+  font-size: 1.25rem;
+}
+
+.content h4 {
+  font-size: 1rem;
+}
+
+.content h5 {
+  font-size: 0.875rem;
+}
+
+.content h6 {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.heading-anchor {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  text-decoration: none;
+}
+
+.heading-anchor::after {
+  content: '#';
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  color: var(--color-text-muted)
+}
+
+.content span:target+.heading-anchor,
+.content h1:hover>.heading-anchor,
+.content h2:hover>.heading-anchor,
+.content h3:hover>.heading-anchor,
+.content h4:hover>.heading-anchor,
+.content h5:hover>.heading-anchor,
+.content h6:hover>.heading-anchor,
+.heading-anchor:focus {
+  opacity: 1;
+  text-decoration: none !important;
+}
+
+.content p {
+  margin-bottom: 1rem;
+  max-width: 100%;
+}
+
+.content ul,
+.content ol {
+  padding-left: 1.5rem;
+}
+
+/* Only apply bottom margin to the top-level list so nested lists dont add spaces */
+.content ol:not(ol ol, ul ol),
+.content ul:not(ul ul, ol ul) {
+  margin-bottom: 1rem;
+}
+
+.content li:has(input[type="checkbox"]) {
+  list-style-type: none;
+}
+
+.content a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.content a:hover {
+  text-decoration: underline;
+}
+
+.content input[type="checkbox"] {
+  margin: 0 .2rem .25rem -1.3rem;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+
+.content pre {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  font-family: var(--font-monospace);
+  overflow-x: auto;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--color-border);
+}
+
+/*
+This allows the code element inside of the code block to grow to the width of the actual code
+inside, even if it is overflowing the <pre> element and making the block scrollable. Without
+this, the code will still be scrollable, but it won't have any padding on the right edge of the
+scrollable container.
+*/
+.content pre>code {
+  display: inline-block;
+  min-width: 100%;
+}
+
+.content code {
+  border-radius: 0.25rem;
+  font-family: var(--font-monospace);
+  font-size: 0.9em;
+}
+
+/* <code> elements that are not descendents of <pre> should be inline code*/
+.content code:not(.content pre code) {
+  padding: 0.2em 0.4em;
+  background-color: var(--color-code-background);
+  border-radius: 0.5rem;
+  color: var(--color-text-bright);
+}
+
+.content hr {
+  margin: 1.5rem 0;
+}
+
+.content blockquote {
+  margin: 0;
+  padding: 0 1em;
+  border-left: 0.2em solid;
+  color: var(--color-text-muted);
+}
+
+.content table {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.content table th,
+.content table td {
+  padding: 6px 13px;
+  border: 1px solid var(--color-border);
+}
+
+.content table td>:last-child {
+  margin-bottom: 0;
+}
+
+.content table tr {
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-border);
+}
+
+.content table tr:nth-child(2n) {
+  background-color: var(--color-background-muted);
+}
+
+.content table img {
+  background-color: transparent;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+
+  #sidebar-open-btn,
+  #sidebar-close-btn {
+    display: revert;
+  }
+
+  .sidebar {
+    display: none;
+    z-index: 99999;
+    position: fixed;
+    top: unset;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100dvw;
+    height: 100dvh;
+
+    transition: translate 0.3s ease-out;
+  }
+
+  .sidebar:popover-open {
+    display: flex;
+    translate: 0 0;
+
+    @starting-style {
+      translate: 0 100%;
+    }
+  }
+
+  .sidebar-content {
+    gap: 1rem;
+  }
+
+  .main-container {
+    margin-left: 0;
+  }
+
+  .content {
+    padding: 0 1rem 1rem 1rem;
+  }
+}

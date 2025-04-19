@@ -1,0 +1,17 @@
+title: Snippets
+baseURL: https://snippets.cdevoogd.com
+pluralizeListTitles: false
+disableKinds:
+  - rss
+  - taxonomy
+  - term
+markup:
+  highlight:
+    # Without this, code blocks without a language will not be given a background color
+    guessSyntax: true
+    noClasses: false
+
+# https://gohugo.io/host-and-deploy/host-on-github-pages/#step-5
+caches:
+  images:
+    dir: :cacheDir/images

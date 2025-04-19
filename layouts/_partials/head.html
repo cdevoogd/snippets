@@ -1,0 +1,50 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+{{ template "load-css" (dict "file" "css/main.css") }}
+{{ template "load-css" (dict "file" "css/syntax.css") }}
+{{ template "load-js"  (dict "file" "js/main.js") }}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+{{- /* Favicon and html tags are generated from https://gauger.io/fonticon/ */ -}}
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Snippets" />
+<link rel="manifest" href="/site.webmanifest" />
+
+{{- define "load-css" -}}
+  {{- with resources.Get .file }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" />
+    {{- else }}
+      {{- with . | minify | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end -}}
+
+{{- define "load-js" -}}
+  {{- with resources.Get .file }}
+    {{- $opts := dict
+      "minify" (not hugo.IsDevelopment)
+      "sourceMap" (cond hugo.IsDevelopment "external" "")
+    }}
+    {{- with . | js.Build $opts }}
+      {{- if hugo.IsDevelopment }}
+        <script src="{{ .RelPermalink }}"></script>
+      {{- else }}
+        {{- with . | fingerprint }}
+          <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end -}}
