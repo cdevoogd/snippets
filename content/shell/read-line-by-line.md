@@ -44,7 +44,7 @@ echo 'command in a subshell' | while IFS= read -r line; do
 done
 ```
 
-If you do want the ability ot change state you can use process substitution instead.
+If you do want the ability to change state you can use process substitution instead.
 
 ```bash
 while IFS= read -r line; do

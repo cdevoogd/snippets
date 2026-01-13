@@ -5,7 +5,7 @@ title: Disabling TLS
 By default, Caddy will attempt to automatically set up TLS and HTTPS. When attempting to initially set up a server, however, you may want this disabled.
 
 References:
-- [Caddyfile Ooptions](https://caddyserver.com/docs/caddyfile/options)
+- [Caddyfile Options](https://caddyserver.com/docs/caddyfile/options)
 - [Caddy: Automatic HTTPS](https://caddyserver.com/docs/automatic-https)
 
 ```

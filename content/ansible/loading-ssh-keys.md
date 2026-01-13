@@ -61,7 +61,7 @@ In the end, I ended up with a playbook similar to this:
 ```
 
 For a quick idea on what this playbook is doing, we can look at what the different responses and
-variables would look like. When making a response to the GitHub endpoint, you will recieve a
+variables would look like. When making a response to the GitHub endpoint, you will receive a
 response that just has the public keys listed out in plaintext. The format is the same as what is
 used in SSH's `authorized_keys` file. A user may also have multiple keys.
 

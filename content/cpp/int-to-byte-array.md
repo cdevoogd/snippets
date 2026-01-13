@@ -95,7 +95,7 @@ size_t parse_byte_array(unsigned char* array) {
 
 ## Example Run
 
-The comments on the functions above should hopefully explain how the bitshifting works. Here is an example program that uses the functions above and its output.
+The comments on the functions above should hopefully explain how the bit shifting works. Here is an example program that uses the functions above and its output.
 
 ```cpp
 // This uses the functions above in addition to the functions in this snippet

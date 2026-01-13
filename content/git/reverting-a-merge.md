@@ -82,7 +82,7 @@ On `main`, a new commit has been added that helped fix the issue before. Now tha
 main: A0 ---- A1 ------ A2 --- A3 --------- A4
                \                \            \
 feat:           *---- B1 ------- B2 -- B3 --- B4 (new merge)
-                                 ^     ^ 
+                                 ^     ^
                             (merge)   (revert B2)
 ```
 
@@ -216,7 +216,7 @@ Already up to date.
 
 ### Truly Undo the Merge
 
-In the earlier explanation about [what a revert really is](#what-is-a-revert), it was mentioned that a revert doesn't completely undo a commit by removing it from the history, but instead if creates a new commit that undoes the changes. When dealing with a merge, I believe that the cleanest option is to *actually* undo the commit as if never happened. 
+In the earlier explanation about [what a revert really is](#what-is-a-revert), it was mentioned that a revert doesn't completely undo a commit by removing it from the history, but instead if creates a new commit that undoes the changes. When dealing with a merge, I believe that the cleanest option is to *actually* undo the commit as if never happened.
 
 ```
 main: A0 ---- A1 ------ A2 --- A3

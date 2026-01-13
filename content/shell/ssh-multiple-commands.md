@@ -32,7 +32,7 @@ ssh -S "$HOME/.ssh/ssh-%r-%h-%p" -O check some-host
 ssh -S "$HOME/.ssh/ssh-%r-%h-%p" -O exit some-host
 ```
 
-Here's an example scipt that creates a socket, runs some commands, and then closes it:
+Here's an example script that creates a socket, runs some commands, and then closes it:
 
 ```bash
 remote_host="some-host"
