@@ -7,7 +7,7 @@ query for the public keys that are tied to a user's account. This can be super u
 importing your SSH keys onto a machine using a simple `curl` command:
 
 ```bash
-curl https://github.com/<username>.keys > ~/.ssh/authorized_keys
+curl https://github.com/$username.keys > ~/.ssh/authorized_keys
 ```
 
 Sometimes, however, you want to import the keys of multiple users in bulk and using Ansible makes a

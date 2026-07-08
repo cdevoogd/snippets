@@ -20,14 +20,14 @@ func main() {
 
 If I don't pass any additional linker flags, this will just print that default value.
 
-```bash
+```console
 $ go build -o main main.go && ./main
 Commit: unknown
 ```
 
 To set the commit, I can add a linker flag using the output of `git rev-parse HEAD` which prints the current commit hash.
 
-```bash
+```console
 $ go build -o main -ldflags="-X main.Commit=$(git rev-parse HEAD)" main.go && ./main
 Commit: 401926f4c7b8931595e58bbb181171384a78a6aa
 ```
@@ -70,21 +70,21 @@ func main() {
 
 Note that this won't work if you build a file directly. You have to build at the package level, and have Git available, for the information to get embedded. If I try and build `main.go` directly, this will not work.
 
-```bash
+```console
 $ go build -o main main.go && ./main
 Version: unknown
 ```
 
 If I build the entire package (even though right now it's just `main.go` anyways), it will work.
 
-```bash
+```console
 $ go build -o main . && ./main
 Version: 401926f4c7b8931595e58bbb181171384a78a6aa
 ```
 
 There is also more information embedded into the binary such as the commit's timestamp (`vcs.time`) and whether or not the build was performed with uncommitted changes (`vcs.modified`). To see all information embedded into a binary, you can use the `go version` command.
 
-```bash
+```console
 $ go version -m main
 main: go1.21.7
 	path	snippets
@@ -106,7 +106,7 @@ main: go1.21.7
 
 ## Handling Tarball Builds
 
-Sometimes a project is built from source using an exported tarball. If a project is released without a build for a specific Linux distribution, for example, someone may download the source code tarball from the most recent GitHub release and build the project using that. This is problematic for the last two approaches since that tarball doesn't include any Git information. Luckily, Git provides an way for us to embed a commit in that exported source code.
+Sometimes a project is built from source using an exported tarball. If a project is released without a build for a specific Linux distribution, for example, someone may download the source code tarball from the most recent GitHub release and build the project using that. This is problematic for the last two approaches since that tarball doesn't include any Git information. Luckily, Git provides a way for us to embed a commit in that exported source code.
 
 Git has an attribute called [`export-subst`](https://git-scm.com/docs/gitattributes#_export_subst) that tells Git to expand placeholders in a file when adding it to an archive. In this Go file, you will see that `substitutedCommit` is set to a placeholder string.
 
@@ -136,20 +136,20 @@ func main() {
 
 In your `.gitattributes` file, you would then set the `export-subst` attribute on the file with that variable.
 
-```
+```gitattributes
 /main.go export-subst
 ```
 
 Now, when `git archive` is run that placeholder will be replaced. That command is what is run by GitHub (and many other tools) when generating an archive of the current source code. In this case, the placeholder is written so that it will be replaced by the current commit.
 
-```bash
+```console
 $ git archive HEAD | tar -x --to-stdout main.go | grep 'substitutedCommit :='
 	substitutedCommit := "934e234f4116106a8e7441cdbc5d1fba92016f9a"
 ```
 
 Note that this won't work when the file is not run through `git archive`. To cover multiple build scenarios, you will likely want to combine this method with one of the methods above.
 
-```bash
+```console
 $ go build -o main . && ./main
 Version: unknown
 ```

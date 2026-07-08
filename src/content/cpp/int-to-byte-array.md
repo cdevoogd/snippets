@@ -1,5 +1,5 @@
 ---
-title: Converting Between an Integer and a Byte Array
+title: Integer to Byte Array
 ---
 
 Some protocols require the length of a message to be set as bytes in the beginning of a message. These snippets show how to split an integer to bytes in a byte array and vice versa.

@@ -49,15 +49,24 @@ const { title } = Astro.props;
 </style>
 
 <script>
+const consolePattern = /^(\$ )/gm
   function handleCopyCode(button: Element) {
     const codeBlock = button.parentElement?.nextElementSibling;
     if (!codeBlock) return;
+    if (!(codeBlock instanceof HTMLElement)) return;
 
     const codeElement = codeBlock.querySelector("code");
     if (!codeElement) return;
 
+    // Console snippets usually start with '$ ' to get correct highlighting. This will try and
+    // remove that so that the copy button copies a command that can be directly pasted into
+    // a terminal.
+    const text = codeBlock.dataset.language === "console"
+    ? codeElement.textContent.replaceAll(consolePattern, "")
+    : codeElement.textContent
+
     navigator.clipboard
-      .writeText(codeElement.textContent)
+      .writeText(text)
       .then(() => {
         const before = button.textContent;
         button.textContent = "copied!";

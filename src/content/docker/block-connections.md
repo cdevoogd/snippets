@@ -12,12 +12,13 @@ References:
 
 Prevent all containers on the host from accessing a specific IP:
 
-```bash
-sudo iptables -I DOCKER-USER -d <DEST-IP> -j DROP
+```console
+$ sudo iptables -I DOCKER-USER -d <DEST-IP> -j DROP
+$ sudo iptables -I DOCKER-USER -d <DEST-IP> -j DROP
 ```
 
 To remove that rule, run the same command with swap `-I` (insert) with `-D` (delete):
 
-```bash
-sudo iptables -D DOCKER-USER -d <DEST-IP> -j DROP
+```console
+$ sudo iptables -D DOCKER-USER -d <DEST-IP> -j DROP
 ```

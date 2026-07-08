@@ -62,17 +62,13 @@ parse_arguments() {
     done
 }
 
-get_all_containers() {
-    docker ps --all --format '{{.Names}}' | sort
-}
-
 get_container_status() {
-    local container_name="$1"
-    docker ps --all --format '{{.Status}}' --filter "name=$container_name"
+    local container="$1"
+    docker ps --all --format '{{.Status}}' --filter "name=$container"
 }
 
 print_header() {
-    local style='\033[37;44;1m' # blue background, white foreground
+    local style='\033[1;30;44m' # blue bg, black fg, bold
     local reset='\033[0m'
     echo -e "${style} ${1} ${reset}"
 }
@@ -90,8 +86,8 @@ print_container_logs() {
         fi
     fi
 
-    print_header "Logs for '$container_name' [$(get_container_status "$container_name")]"
-    docker logs -n "$LOG_NUMBER" "$container_name"
+    print_header "Logs for '$container' [$(get_container_status "$container")]"
+    docker logs -n "$LOG_NUMBER" "$container"
     echo
 }
 
@@ -101,8 +97,8 @@ main() {
     # that it doesn't use stdin which is needed by the 'read' command. Without
     # it this loop and the 'read' command used to confirm moving to the next
     # container would both use stdin which breaks the read command
-    while IFS= read -r container_name <&3; do
-        print_container_logs "$container_name"
+    while IFS= read -r container <&3; do
+        print_container_logs "$container"
     done 3< <(docker ps --all --format '{{.Names}}' | sort)
 }
 

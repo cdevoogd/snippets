@@ -85,7 +85,7 @@ If you just pass the `-L` or `-R` flags to `ssh`, it will open a normal SSH sess
 ssh -N -L 8080:localhost:80 user@server
 ```
 
-If you want to run this in the background, you can simply add the `-f` flag as well. This will cause the SSH command to run in the and give you control of the terminal session back.
+If you want to run this in the background, you can simply add the `-f` flag as well. This will cause the SSH command to run in the background and give you control of the terminal session back.
 
 ```bash
 ssh -f -N -L 8080:localhost:80 user@server

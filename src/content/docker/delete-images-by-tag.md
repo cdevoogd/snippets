@@ -3,7 +3,7 @@ title: Bulk Delete Images By Tag
 ---
 
 This command will remove all Docker images that match the target tag. It prints out all images,
-filters the output s that it only includes images with the tag in `target_tag`, and then deletes
+filters the output so that it only includes images with the tag in `target_tag`, and then deletes
 them with `docker rmi`.
 
 ```bash

@@ -2,8 +2,6 @@
 title: Reverting a Merge
 ---
 
-It's late in the week, and a bug has popped up that is breaking production. After thorough searching, you identify the source of the bug: a single commit. The fix isn't immediately obvious, and it likely will need to be tested, so for now you revert that commit with `git revert` and fix production temporarily.
-
 Using `git revert` is effective for reversing small commits or features that have introduced a bug. When you have come up with a fix, you might be able to simply revert the previous revert, make some changes and merge back into the main branch. If it's small enough, you might even be able to rewrite the entire original commit from scratch. When using `git revert` to try and fix a bad merge, however, it can be easy to make a mess.
 
 ## What is a Revert?
@@ -16,8 +14,8 @@ Many developers mistakenly view `revert` as a simple undo operation. However, it
 
 I've created a small Git repository that just includes a text file. There are a couple commits that edit the text in the file. You can see in the log below that "commit 2" was reverted.
 
-```
-❯ git log --decorate --pretty=oneline --abbrev-commit
+```console
+$ git log --decorate --pretty=oneline --abbrev-commit
 23f7bf2 (HEAD -> main) Revert "commit 2"
 83217b1 commit 2
 7f5126d commit 1
@@ -142,8 +140,8 @@ After running the script, the graph looks the same as the hypothetical example f
 
 The comment from the hypothetical example about the changes from `A2` and `A3` being missing was accurate. Additionally, we see `A4`, confirming that the final merge was successful.
 
-```
-❯ ls -1
+```console
+$ ls -1
 commit-A0
 commit-A1
 commit-A4
@@ -154,8 +152,8 @@ commit-B1
 
 In both examples, why are the changes `A2` and `A3` missing? Well the commits themselves *are* in the feature branch, but the feature branch still includes the revert commit that undoes all of their changes. You can see in the log that we have both commits, but we also still have `B3` which reverted (applied the opposite of) all of their changes.
 
-```
-❯ git log --abbrev-commit --oneline
+```console
+$ git log --abbrev-commit --oneline
 d4064de (HEAD -> feat) B4 (merge main)
 33da5b5 B3 (revert B2)
 923f885 (main) A4
@@ -199,16 +197,16 @@ git commit --amend -m "B3 (revert B2)"
 
 You can then run the script and try to manually run the merge again after the revert.
 
-```
-❯ ./test-merge.sh > /dev/null
+```console
+$ ./test-merge.sh > /dev/null
 Switched to branch 'feat'
 Switched to branch 'main'
 Switched to branch 'feat'
 
-❯ git log -1 --format=%B
+$ git log -1 --format=%B
 B3 (revert B2)
 
-❯ git merge main
+$ git merge main
 Already up to date.
 ```
 
@@ -240,14 +238,14 @@ If you've already reverted a merge and you do not have the option or ability to 
 
 Here I have re-run the script from the Git example to create a repository that's missing changes from `A2` and `A3`.
 
-```
-❯ ls -1
+```console
+$ ls -1
 commit-A0
 commit-A1
 commit-A4
 commit-B1
 
-❯ git log --pretty=format:'%Cred%h%Creset - %s' --abbrev-commit
+$ git log --pretty=format:'%Cred%h%Creset - %s' --abbrev-commit
 7e91ddc - B4 (merge main)
 f47c179 - B3 (revert B2)
 a774372 - A4
@@ -261,15 +259,15 @@ ca2abaf - A0
 
 In the log, I can see that `f47c179` was the commit that reverted the first merge, so I can revert that commit and the files should be restored.
 
-```
-❯ git revert f47c179 --no-edit
+```console
+$ git revert f47c179 --no-edit
 [feat 87a3ec3] Revert "B3 (revert B2)"
  Date: Wed Sep 18 21:44:05 2024 -0600
  2 files changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 commit-A2
  create mode 100644 commit-A3
 
-❯ ls -1
+$ ls -1
 commit-A0
 commit-A1
 commit-A2
