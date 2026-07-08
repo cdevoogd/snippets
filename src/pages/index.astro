@@ -1,0 +1,208 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getSnippetPages } from "../lib/snippets.ts";
+
+const pages = await getSnippetPages();
+---
+
+<Layout>
+  <div class="index">
+    <header class="index-header">
+      <span>snippets</span>
+      <div class="search-wrapper">
+        <input id="search" type="text" placeholder="Search..." />
+        <kbd>/</kbd>
+      </div>
+    </header>
+    <div class="pills">
+      {
+        [...pages.entries()].map(([category, _]) => (
+          <button class="pill" data-section={category}>
+            {category}
+          </button>
+        ))
+      }
+    </div>
+    {
+      [...pages.entries()].map(([category, snippets]) => (
+        <section class="section" data-section={category}>
+          <header class="section-header">
+            <h2 class="section-title">{category.toUpperCase()}</h2>
+            <div class="section-rule" />
+          </header>
+          <ul class="section-list">
+            {snippets.map((snippet) => (
+              <a class="section-link" data-name={snippet.data.title.toLowerCase()} href={`/snippets/${snippet.id}`}>
+                {snippet.data.title}
+              </a>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</Layout>
+
+<script>
+  import { queryElement, queryElements } from "../lib/dom.ts";
+
+  const pills = queryElements(document, ".pill", HTMLButtonElement);
+  const search = queryElement(document, "#search", HTMLInputElement);
+  const sections = queryElements(document, ".section", HTMLElement);
+  let activeSection: string | null = null;
+
+  function updateFilteredPages() {
+    const query = search.value.trim().toLowerCase();
+    sections.forEach((section) => {
+      if (activeSection && section.dataset.section !== activeSection) {
+        section.style.display = "none";
+        return;
+      }
+
+      let hasVisibleLinks = false;
+      queryElements(section, ".section-link", HTMLElement).forEach((link) => {
+        const match = !query || link.dataset.name?.includes(query) || section.dataset.section?.includes(query);
+        link.style.display = match ? "" : "none";
+        if (match) hasVisibleLinks = true;
+      });
+
+      section.style.display = hasVisibleLinks ? "" : "none";
+    });
+  }
+
+  pills.forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetSection = button.dataset.section || null;
+      activeSection = activeSection === targetSection ? null : targetSection;
+      pills.forEach((p) => p.classList.toggle("active", p.dataset.section === activeSection));
+      updateFilteredPages();
+    });
+  });
+
+  search.addEventListener("input", () => {
+    updateFilteredPages();
+  });
+
+  search.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      search.blur();
+    }
+  });
+
+  const INPUT_TAGS = new Set(["input", "textarea", "select"]);
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "/" || e.ctrlKey || e.metaKey) return;
+    if (!(e.target instanceof HTMLElement) || INPUT_TAGS.has(e.target.tagName.toLowerCase())) return;
+
+    e.preventDefault();
+    search.focus();
+  });
+</script>
+
+<style>
+  .index {
+    max-width: min(100%, 45rem);
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .index-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0.25rem 0;
+  }
+
+  .search-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  #search {
+    min-width: 10rem;
+    max-width: 20rem;
+    margin: 0.75rem 0;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    padding: 0.35rem 0.5rem;
+  }
+
+  .search-wrapper kbd {
+    position: absolute;
+    right: 0.4rem;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.3rem;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    pointer-events: none;
+    line-height: 1.2;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .pill {
+    font-size: 0.8125rem;
+    padding: 0.4rem 0.5rem;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    cursor: pointer;
+
+    /* normalize.css sets the line height to 1.15 which is causing the text in the button to be
+      off-centered (towards the top) when at 100% zoom, but fine at ~133% zoom. This helps
+      keep it centered all of the time. */
+    line-height: 1.5;
+
+    &.active {
+      color: var(--color-background);
+      background-color: var(--color-primary);
+      border-color: transparent;
+    }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.25rem 0;
+  }
+
+  .section-title {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .section-rule {
+    flex: 1;
+    border: 1px solid var(--color-border);
+  }
+
+  .section-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .section-link {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+</style>

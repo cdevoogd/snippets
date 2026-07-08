@@ -1,9 +1,12 @@
 .*
 *.log
-dist
-output
-public
-resources
-node_modules
+
+out/
+output/
+dist/
+node_modules/
 
 !.gitignore
+!.npmrc
+!.prettierrc
+!.prettierignore

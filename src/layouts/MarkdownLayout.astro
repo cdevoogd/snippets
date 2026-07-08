@@ -1,0 +1,78 @@
+---
+import Layout from "./Layout.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+  <div class="md">
+    <a href="/" class="index-btn">
+      <svg
+        width="1em"
+        height="1em"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M10 12L6 8L10 4"></path>
+      </svg>
+      Back to Index
+    </a>
+    <slot />
+  </div>
+</Layout>
+
+<style>
+  .index-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+
+    margin-top: 2rem;
+    /* Slightly less padding on the left since the svg has quite a bit of empty space */
+    padding: 0.25rem 0.625rem 0.25rem 0.2rem;
+    text-decoration: none;
+    color: inherit;
+
+    border: 1px solid var(--color-border);
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+</style>
+
+<script>
+  function handleCopyCode(button: Element) {
+    const codeBlock = button.parentElement?.nextElementSibling;
+    if (!codeBlock) return;
+
+    const codeElement = codeBlock.querySelector("code");
+    if (!codeElement) return;
+
+    navigator.clipboard
+      .writeText(codeElement.textContent)
+      .then(() => {
+        const before = button.textContent;
+        button.textContent = "copied!";
+        setTimeout(() => {
+          button.textContent = before;
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
+  }
+
+  document.querySelectorAll(".copy-code-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      handleCopyCode(button);
+    });
+  });
+</script>

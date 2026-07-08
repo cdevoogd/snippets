@@ -1,0 +1,64 @@
+@layer normalize, globals, markdown, utilities;
+@import url("../../node_modules/modern-normalize/modern-normalize.css") layer(normalize);
+@import url("markdown.css") layer(markdown);
+
+@layer globals {
+  :root {
+    /* These shades are from Tailwind's preset colors */
+    --color-neutral-50: oklch(98.5% 0 0);
+    --color-neutral-100: oklch(97% 0 0);
+    --color-neutral-200: oklch(92.2% 0 0);
+    --color-neutral-300: oklch(87% 0 0);
+    --color-neutral-400: oklch(70.8% 0 0);
+    --color-neutral-500: oklch(55.6% 0 0);
+    --color-neutral-600: oklch(43.9% 0 0);
+    --color-neutral-700: oklch(37.1% 0 0);
+    --color-neutral-800: oklch(26.9% 0 0);
+    --color-neutral-900: oklch(20.5% 0 0);
+    --color-neutral-950: oklch(14.5% 0 0);
+
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+    --color-primary: #8addff;
+    --color-text: var(--color-neutral-300);
+    --color-text-muted: var(--color-neutral-400);
+    --color-text-bright: var(--color-neutral-100);
+    --color-border: var(--color-neutral-700);
+    --color-background: var(--color-neutral-950);
+    --color-background-muted: var(--color-neutral-900);
+  }
+
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+
+    font-size: 16px;
+    font-family: var(--font-mono);
+    font-variant-ligatures: none;
+    line-height: 1.5;
+    color: var(--color-text);
+    color-scheme: dark;
+    background-color: var(--color-background);
+  }
+
+  input {
+    /* Chrome UA stylesheet enables ligatures on input elements */
+    font-variant-ligatures: none;
+  }
+}
+
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+}

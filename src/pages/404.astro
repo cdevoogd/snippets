@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="center">
+    <div>
+      <h1>404 Not Found</h1>
+      <a href="/" class="home">Go Home</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+  }
+
+  .home {
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 1rem;
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+</style>

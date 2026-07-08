@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+**/build
+**/.astro
+
+package-lock.json
+.github/workflows/*.yml
+.github/workflows/*.yaml
+
+# Don't touch the markdown files for now
+**/*.md

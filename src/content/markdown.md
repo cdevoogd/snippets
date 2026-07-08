@@ -1,6 +1,5 @@
 ---
 title: Markdown Syntax
-weight: -99
 draft: true
 description: |
     A test page that contains a lot of different markdown syntax that is useful when working on
@@ -81,7 +80,7 @@ Task list:
 - [x] Finish my changes
 - [ ] Push my commits to GitHub
 - [ ] Open a pull request
-- [x] @mentions, #refs, [links](), and **formatting** supported
+- [x] @mentions, #refs, [links](https://example.com), and **formatting** supported
 - [x] list syntax required (any unordered or ordered list supported)
 - [ ] this is a complete item
 - [ ] this is an incomplete item
@@ -93,6 +92,7 @@ Mixed task and unordered list:
 - [ ] Item 3
 - Item 4
 - Item 5
+    - Item 5.1
 
 ------
 
