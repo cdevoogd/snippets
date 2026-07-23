@@ -80,12 +80,17 @@ const { title } = Astro.props;
 </style>
 
 <script>
-  const container = document.querySelector(".container");
-  const toggle = document.getElementById("toggle");
+const container = document.querySelector(".container");
+const toggle = document.getElementById("toggle");
+const backdrop = document.getElementById("backdrop");
 
-  toggle?.addEventListener("click", () => {
-    container?.classList.toggle("open");
-  });
+toggle?.addEventListener("click", () => {
+  container?.classList.toggle("open");
+});
+
+backdrop?.addEventListener("click", () => {
+  container?.classList.remove("open");
+});
 
   const consolePattern = /^(\$ )/gm;
   function handleCopyCode(button: Element) {
