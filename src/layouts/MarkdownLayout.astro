@@ -1,5 +1,6 @@
 ---
 import Layout from "./Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
 
 interface Props {
   title: string;
@@ -9,32 +10,62 @@ const { title } = Astro.props;
 ---
 
 <Layout title={title}>
-  <div class="md">
-    <a href="/" class="index-btn">
-      <svg
-        width="1em"
-        height="1em"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M10 12L6 8L10 4"></path>
-      </svg>
-      Back to Index
-    </a>
-    <slot />
+  <div class="container">
+    <Sidebar />
+    <div class="md">
+      <a href="/" class="index-btn">
+        <svg
+          width="1em"
+          height="1em"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M10 12L6 8L10 4"></path>
+        </svg>
+        Back to Index
+      </a>
+      <slot />
+    </div>
   </div>
 </Layout>
 
 <style>
+  .container {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    transition: grid-template-columns 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+    max-width: min(100%, 80rem);
+    margin: 2rem auto 0;
+    padding: 0rem 2rem 1rem 2rem;
+  }
+
+  :global(.container.open) {
+    grid-template-columns: 280px 1fr;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      grid-template-columns: 1fr;
+      gap: 0;
+      transition: none;
+    }
+  }
+
+  .md {
+    min-width: 0;
+  }
+
   .index-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.25em;
 
-    margin-top: 2rem;
     /* Slightly less padding on the left since the svg has quite a bit of empty space */
     padding: 0.25rem 0.625rem 0.25rem 0.2rem;
     text-decoration: none;
@@ -49,7 +80,14 @@ const { title } = Astro.props;
 </style>
 
 <script>
-const consolePattern = /^(\$ )/gm
+  const container = document.querySelector(".container");
+  const toggle = document.getElementById("toggle");
+
+  toggle?.addEventListener("click", () => {
+    container?.classList.toggle("open");
+  });
+
+  const consolePattern = /^(\$ )/gm;
   function handleCopyCode(button: Element) {
     const codeBlock = button.parentElement?.nextElementSibling;
     if (!codeBlock) return;
@@ -61,9 +99,10 @@ const consolePattern = /^(\$ )/gm
     // Console snippets usually start with '$ ' to get correct highlighting. This will try and
     // remove that so that the copy button copies a command that can be directly pasted into
     // a terminal.
-    const text = codeBlock.dataset.language === "console"
-    ? codeElement.textContent.replaceAll(consolePattern, "")
-    : codeElement.textContent
+    const text =
+      codeBlock.dataset.language === "console"
+        ? codeElement.textContent.replaceAll(consolePattern, "")
+        : codeElement.textContent;
 
     navigator.clipboard
       .writeText(text)

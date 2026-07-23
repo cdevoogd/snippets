@@ -1,0 +1,199 @@
+<nav class="sidebar">
+  <button class="toggle" id="toggle" aria-label="Toggle sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+      <line x1="9" y1="4" x2="9" y2="20"></line>
+    </svg>
+  </button>
+  <div class="panel">
+    <a href="#">Hello</a>
+    <a href="#">Hello</a>
+    <a href="#">Hello</a>
+    <a href="#">Hello</a>
+    <a href="#">Hello</a>
+    <a href="#">Hello</a>
+  </div>
+</nav>
+<div class="backdrop" id="backdrop"></div>
+
+<style>
+  .sidebar {
+    background-color: var(--color-background-muted);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    width: 100%;
+    height: 40px;
+    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    position: sticky;
+    top: 2rem;
+  }
+
+  :global(.container.open) .sidebar {
+    height: 90vh;
+    overflow-y: auto;
+    /* border-radius: 22px; */
+  }
+
+  .toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition:
+      color 0.15s ease,
+      scale 0.15s ease-out,
+      box-shadow 0.15s ease;
+  }
+
+  .toggle:hover {
+    color: var(--color-text);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  :global(.container.open) .toggle {
+    box-shadow: none;
+  }
+
+  .toggle:active {
+    scale: 0.96;
+  }
+
+  .toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .panel {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.2s ease 0.18s,
+      transform 0.2s ease 0.18s;
+    padding: 8px 18px 18px;
+  }
+
+  :global(.container.open) .panel {
+    opacity: 1;
+    transform: none;
+  }
+
+  .panel > a {
+    display: block;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 10px 0;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      color 0.15s ease;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+
+    &.active {
+      color: var(--color-primary);
+    }
+  }
+
+  :global(.container.open) .panel > a {
+    opacity: 1;
+    transform: none;
+  }
+
+  :global(.container.open) .panel > a:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+  :global(.container.open) .panel > a:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+  :global(.container.open) .panel > a:nth-child(3) {
+    transition-delay: 0.15s;
+  }
+  :global(.container.open) .panel > a:nth-child(4) {
+    transition-delay: 0.2s;
+  }
+  :global(.container.open) .panel > a:nth-child(5) {
+    transition-delay: 0.25s;
+  }
+  :global(.container.open) .panel > a:nth-child(6) {
+    transition-delay: 0.3s;
+  }
+  :global(.container.open) .panel > a:nth-child(7) {
+    transition-delay: 0.35s;
+  }
+  :global(.container.open) .panel > a:nth-child(8) {
+    transition-delay: 0.4s;
+  }
+
+  .backdrop {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -90vw;
+      width: 90vw;
+      max-width: 400px;
+      height: 100vh;
+      background: var(--color-background-muted);
+      border-radius: 0;
+      border: none;
+      z-index: 100;
+      overflow-y: auto;
+      overscroll-behavior: none;
+      -webkit-overflow-scrolling: touch;
+      transition: right 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+    }
+
+    :global(.container.open) .sidebar {
+      right: 0;
+      height: 100vh;
+      border-radius: 0;
+    }
+
+    .toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 200;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .panel {
+      opacity: 1;
+      transform: none;
+      padding: 80px 24px 24px;
+    }
+
+    .backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :global(.container.open) .backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+</style>
