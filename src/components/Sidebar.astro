@@ -1,3 +1,24 @@
+---
+import type { SnippetPages } from "../lib/snippets.ts";
+
+interface Props {
+  pages: SnippetPages;
+  currentId?: string;
+}
+
+const { pages, currentId } = Astro.props;
+
+function getSnippetCategory(id: string): string {
+  const parts = id.split("/");
+  if (parts.length === 1) {
+    return "uncategorized";
+  }
+  return parts.at(-2) || "uncategorized";
+}
+
+const activeCategory = currentId ? getSnippetCategory(currentId) : null;
+---
+
 <nav class="sidebar">
   <button class="toggle" id="toggle" aria-label="Toggle sidebar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -6,12 +27,39 @@
     </svg>
   </button>
   <div class="panel">
-    <a href="#">Hello</a>
-    <a href="#">Hello</a>
-    <a href="#">Hello</a>
-    <a href="#">Hello</a>
-    <a href="#">Hello</a>
-    <a href="#">Hello</a>
+    <div class="panel-header">
+      <span class="panel-title">snippets</span>
+    </div>
+    <div class="nav-view">
+          {[...pages.entries()].map(([category, snippets]) => {
+            const isExpanded = category === activeCategory;
+            return (
+              <div class:list={["tree-item", { "is-expanded": isExpanded }]}>
+                <div class="tree-item-self is-clickable" data-category={category}>
+                  <div class:list={["collapse-icon", { "is-expanded": isExpanded }]}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </div>
+                  <span class="tree-item-label">{category}</span>
+                </div>
+                <div class:list={["tree-item-children", { "is-expanded": isExpanded }]}>
+                  {snippets.map((snippet) => {
+                    const isActive = snippet.id === currentId;
+                    return (
+                      <a
+                        class:list={["tree-item-link", { "is-active": isActive }]}
+                        href={`/snippets/${snippet.id}`}
+                      >
+                        {snippet.data.title}
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+    </div>
   </div>
 </nav>
 <div class="backdrop" id="backdrop"></div>
@@ -31,7 +79,6 @@
   :global(.container.open) .sidebar {
     height: 90vh;
     overflow-y: auto;
-    /* border-radius: 22px; */
   }
 
   .toggle {
@@ -78,7 +125,10 @@
     transition:
       opacity 0.2s ease 0.18s,
       transform 0.2s ease 0.18s;
-    padding: 8px 18px 18px;
+    padding: 8px 12px 18px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   :global(.container.open) .panel {
@@ -86,55 +136,116 @@
     transform: none;
   }
 
-  .panel > a {
+  .panel-header {
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+
+  .panel-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+  }
+
+  .nav-view {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .tree-item {
+    margin: 0;
+  }
+
+  .tree-item-self {
+    display: none;
+  }
+
+  .tree-item-children {
     display: block;
+  }
+
+  .tree-item-self.is-clickable {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    user-select: none;
+    transition: background-color 0.1s ease;
+  }
+
+  .tree-item-self.is-clickable:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .collapse-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+    transform: rotate(0deg);
+  }
+
+  .collapse-icon.is-expanded {
+    transform: rotate(90deg);
+  }
+
+  .collapse-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .tree-item-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .tree-item-self.is-clickable:hover .tree-item-label {
+    color: var(--color-text);
+  }
+
+  .tree-item-children {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .tree-item-children.is-expanded {
+    max-height: 1000px;
+  }
+
+  .tree-item-link {
+    display: block;
+    padding: 5px 8px 5px 28px;
     color: var(--color-text);
     text-decoration: none;
-    padding: 10px 0;
-    opacity: 0;
-    transform: translateY(4px);
+    font-size: 0.8125rem;
+    border-radius: 4px;
     transition:
-      opacity 0.2s ease,
-      transform 0.2s ease,
-      color 0.15s ease;
-
-    &:hover {
-      color: var(--color-primary);
-    }
-
-    &.active {
-      color: var(--color-primary);
-    }
+      color 0.15s ease,
+      background-color 0.15s ease;
   }
 
-  :global(.container.open) .panel > a {
-    opacity: 1;
-    transform: none;
+  .tree-item-link:hover {
+    color: var(--color-primary);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 
-  :global(.container.open) .panel > a:nth-child(1) {
-    transition-delay: 0.05s;
-  }
-  :global(.container.open) .panel > a:nth-child(2) {
-    transition-delay: 0.1s;
-  }
-  :global(.container.open) .panel > a:nth-child(3) {
-    transition-delay: 0.15s;
-  }
-  :global(.container.open) .panel > a:nth-child(4) {
-    transition-delay: 0.2s;
-  }
-  :global(.container.open) .panel > a:nth-child(5) {
-    transition-delay: 0.25s;
-  }
-  :global(.container.open) .panel > a:nth-child(6) {
-    transition-delay: 0.3s;
-  }
-  :global(.container.open) .panel > a:nth-child(7) {
-    transition-delay: 0.35s;
-  }
-  :global(.container.open) .panel > a:nth-child(8) {
-    transition-delay: 0.4s;
+  .tree-item-link.is-active {
+    color: var(--color-primary);
+    background-color: rgba(138, 221, 255, 0.08);
   }
 
   .backdrop {
@@ -199,3 +310,58 @@
     }
   }
 </style>
+
+<script>
+  const navView = document.querySelector(".nav-view");
+  if (navView) {
+    navView.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const treeItemSelf = target.closest(".tree-item-self.is-clickable");
+      if (!treeItemSelf) return;
+
+      const treeItem = treeItemSelf.closest(".tree-item");
+      if (!treeItem) return;
+
+      const children = treeItem.querySelector(".tree-item-children");
+      const icon = treeItemSelf.querySelector(".collapse-icon");
+      if (!children || !icon) return;
+
+      treeItem.classList.toggle("is-expanded");
+      children.classList.toggle("is-expanded");
+      icon.classList.toggle("is-expanded");
+
+      const category = treeItemSelf.getAttribute("data-category");
+      if (category) {
+        const expanded = treeItem.classList.contains("is-expanded");
+        const expandedCategories = JSON.parse(sessionStorage.getItem("expandedCategories") || "[]");
+        if (expanded) {
+          if (!expandedCategories.includes(category)) {
+            expandedCategories.push(category);
+          }
+        } else {
+          const idx = expandedCategories.indexOf(category);
+          if (idx !== -1) {
+            expandedCategories.splice(idx, 1);
+          }
+        }
+        sessionStorage.setItem("expandedCategories", JSON.stringify(expandedCategories));
+      }
+    });
+  }
+
+  // Restore expanded state from sessionStorage
+  const expandedCategories = JSON.parse(sessionStorage.getItem("expandedCategories") || "[]");
+  expandedCategories.forEach((category: string) => {
+    const treeItemSelf = document.querySelector(`.tree-item-self[data-category="${category}"]`);
+    if (treeItemSelf) {
+      const treeItem = treeItemSelf.closest(".tree-item");
+      const children = treeItem?.querySelector(".tree-item-children");
+      const icon = treeItemSelf.querySelector(".collapse-icon");
+      if (treeItem && children && icon) {
+        treeItem.classList.add("is-expanded");
+        children.classList.add("is-expanded");
+        icon.classList.add("is-expanded");
+      }
+    }
+  });
+</script>

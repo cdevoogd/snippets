@@ -15,7 +15,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<MarkdownLayout title={entry.data.title + " | Snippets"}>
+<MarkdownLayout title={entry.data.title + " | Snippets"} currentId={entry.id}>
   <h1>{entry.data.title}</h1>
   <Content />
 </MarkdownLayout>
