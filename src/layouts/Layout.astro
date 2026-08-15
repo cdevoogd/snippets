@@ -1,6 +1,4 @@
 ---
-import { Font } from "astro:assets";
-
 interface Props {
   title?: string;
 }
@@ -16,7 +14,6 @@ const { title = "Snippets" } = Astro.props;
     <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <title>{title}</title>
-    <Font cssVariable="--font-jetbrains-mono" />
   </head>
   <body>
     <slot />
