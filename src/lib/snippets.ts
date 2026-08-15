@@ -8,6 +8,10 @@ function getSnippetCategory(id: string): string {
   return parts.at(-2) || "uncategorized";
 }
 
+export function getSnippetURL(id: string): string {
+  return `/snippets/${id.replace(/\/index$/, "")}`;
+}
+
 export type SnippetPages = Map<string, CollectionEntry<"snippets">[]>;
 export async function getSnippetPages(): Promise<SnippetPages> {
   const collection = await getCollection("snippets");
