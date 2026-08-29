@@ -21,40 +21,23 @@ function formatCategoryTitle(category: string): string {
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <a class="sidebar-home" href="/"><HomeIcon /></a>
+    <a class="sidebar-home" href="/" aria-label="Home"><HomeIcon /></a>
     <div class="sidebar-search">
       <input id="sidebar-search" type="text" placeholder="Search..." autocomplete="off" spellcheck="false" />
       <kbd>/</kbd>
     </div>
   </div>
-  <nav class="tree">
+  <nav class="sidebar-tree">
     {
       [...pages.entries()].map(([category, snippets]) => {
-        const isOpen = snippets.some((snippet) => snippet.id === currentID);
         return (
-          <section class:list={["tree-section", { open: isOpen }]} data-category={category}>
-            <button class="tree-parent" type="button" aria-expanded={isOpen}>
-              <svg
-                class="tree-chevron"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M3 8L12 17L21 8" />
-              </svg>
-              <span>{formatCategoryTitle(category)}</span>
-            </button>
-            <ul class="tree-children">
+          <section class="sidebar-section" data-category={category}>
+            <h2 class="sidebar-parent">{formatCategoryTitle(category)}</h2>
+            <ul class="sidebar-children">
               {snippets.map((snippet) => (
                 <li>
                   <a
-                    class:list={["tree-link", { active: snippet.id === currentID }]}
+                    class:list={["sidebar-link", { active: snippet.id === currentID }]}
                     data-name={snippet.data.title.toLowerCase()}
                     href={getSnippetURL(snippet.id)}
                   >
@@ -71,67 +54,16 @@ function formatCategoryTitle(category: string): string {
   <p class="no-results" hidden>No snippets match your search.</p>
 </aside>
 
-<script is:inline>
-  (() => {
-    try {
-      const stored = JSON.parse(sessionStorage.getItem("snippets-sidebar-state") || "{}");
-      if (!stored || typeof stored !== "object") return;
-      document.querySelectorAll(".tree-section").forEach((section) => {
-        const category = section.dataset.category;
-        if (!category || typeof stored[category] !== "boolean") return;
-        const open = stored[category];
-        section.classList.toggle("open", open);
-        const button = section.querySelector(".tree-parent");
-        if (button) button.setAttribute("aria-expanded", String(open));
-      });
-    } catch {}
-  })();
-</script>
-
 <script>
-  const STORAGE_KEY = "snippets-sidebar-state";
-
-  type SidebarState = Record<string, boolean>;
-
-  function readState(): SidebarState {
-    try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
-      const state = JSON.parse(raw || "{}") as unknown;
-      return state && typeof state === "object" ? (state as SidebarState) : {};
-    } catch {
-      return {};
-    }
-  }
-
-  function writeState(state: SidebarState) {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {}
-  }
-
-  for (const button of document.querySelectorAll<HTMLButtonElement>(".tree-parent")) {
-    button.addEventListener("click", () => {
-      const section = button.closest(".tree-section");
-      if (!section) return;
-      const isOpen = section.classList.toggle("open");
-      button.setAttribute("aria-expanded", String(isOpen));
-      const category = section.dataset.category;
-      if (!category) return;
-      const nextState = readState();
-      nextState[category] = isOpen;
-      writeState(nextState);
-    });
-  }
-
   const sidebar = document.querySelector(".sidebar");
   const search = document.querySelector<HTMLInputElement>("#sidebar-search");
   const noResults = document.querySelector<HTMLElement>(".no-results");
 
   function updateSearch(query: string) {
     let anyMatches = false;
-    for (const section of document.querySelectorAll<HTMLElement>(".tree-section")) {
+    for (const section of document.querySelectorAll<HTMLElement>(".sidebar-section")) {
       let hasMatch = false;
-      for (const link of section.querySelectorAll<HTMLElement>(".tree-link")) {
+      for (const link of section.querySelectorAll<HTMLElement>(".sidebar-link")) {
         const name = link.dataset.name || "";
         const category = section.dataset.category || "";
         const match = !query || name.includes(query) || category.includes(query);

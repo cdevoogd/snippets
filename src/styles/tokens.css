@@ -35,4 +35,7 @@
   --nav-item-color-hover: var(--color-text-bright);
   --nav-item-color-active: var(--color-primary);
   --nav-parent-item-color: var(--color-text-bright);
+
+  --scrollbar-thumb: var(--color-neutral-600);
+  --scrollbar-track: transparent;
 }
