@@ -33,8 +33,7 @@
   font-weight: 600;
 }
 
-/* min-width: var(--breakpoint-md), minus 1px. Media queries can't use custom properties. */
-@media (max-width: 749px) {
+@media (max-width: 48rem) {
   .app {
     padding-top: var(--mobile-header-height);
   }

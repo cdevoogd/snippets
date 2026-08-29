@@ -1,5 +1,6 @@
 ---
 import { type SnippetPages, getSnippetURL } from "../lib/snippets.ts";
+import HomeIcon from "./HomeIcon.astro";
 
 interface Props {
   pages: SnippetPages;
@@ -19,10 +20,12 @@ function formatCategoryTitle(category: string): string {
 ---
 
 <aside class="sidebar" id="sidebar">
-  <a class="site-name" href="/">Snippets</a>
-  <div class="sidebar-search">
-    <input id="sidebar-search" type="text" placeholder="Search snippets..." autocomplete="off" spellcheck="false" />
-    <kbd>/</kbd>
+  <div class="sidebar-header">
+    <a class="sidebar-home" href="/"><HomeIcon /></a>
+    <div class="sidebar-search">
+      <input id="sidebar-search" type="text" placeholder="Search..." autocomplete="off" spellcheck="false" />
+      <kbd>/</kbd>
+    </div>
   </div>
   <nav class="tree">
     {
