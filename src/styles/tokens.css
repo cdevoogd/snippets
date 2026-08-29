@@ -29,7 +29,7 @@
 
   --breakpoint-md: 750px;
   --sidebar-width: 300px;
-  --page-width: 75rem;
+  --content-width: 65rem;
   --mobile-header-height: 3rem;
   --nav-item-color: var(--color-text);
   --nav-item-color-hover: var(--color-text-bright);

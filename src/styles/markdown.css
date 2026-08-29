@@ -1,5 +1,5 @@
 .md {
-  max-width: min(100%, var(--page-width));
+  max-width: min(100%, var(--content-width));
   padding: 0rem 2rem 1rem 2rem;
   margin: 0 auto;
 

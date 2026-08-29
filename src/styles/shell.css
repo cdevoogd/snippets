@@ -1,8 +1,6 @@
 .app {
   display: flex;
   width: 100%;
-  max-width: calc(var(--sidebar-width) + var(--page-width));
-  margin: 0 auto;
 }
 
 .main {
