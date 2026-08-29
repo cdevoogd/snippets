@@ -1,0 +1,38 @@
+:root {
+  /* These shades are from Tailwind's preset colors */
+  --color-neutral-50: oklch(98.5% 0 0);
+  --color-neutral-100: oklch(97% 0 0);
+  --color-neutral-200: oklch(92.2% 0 0);
+  --color-neutral-300: oklch(87% 0 0);
+  --color-neutral-400: oklch(70.8% 0 0);
+  --color-neutral-500: oklch(55.6% 0 0);
+  --color-neutral-600: oklch(43.9% 0 0);
+  --color-neutral-700: oklch(37.1% 0 0);
+  --color-neutral-800: oklch(26.9% 0 0);
+  --color-neutral-900: oklch(20.5% 0 0);
+  --color-neutral-950: oklch(14.5% 0 0);
+
+  --font-sans:
+    ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica", "Arial", "Segoe UI",
+    "InterVariable", "Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "Cascadia Mono", "Roboto Mono", "DejaVu Sans Mono", "Liberation Mono", Menlo, Monaco,
+    "Consolas", "Source Code Pro", monospace;
+
+  --color-primary: #8addff;
+  --color-text: var(--color-neutral-300);
+  --color-text-muted: var(--color-neutral-400);
+  --color-text-bright: var(--color-neutral-100);
+  --color-border: var(--color-neutral-700);
+  --color-background: var(--color-neutral-950);
+  --color-background-muted: var(--color-neutral-900);
+
+  --breakpoint-md: 750px;
+  --sidebar-width: 300px;
+  --page-width: 75rem;
+  --mobile-header-height: 3rem;
+  --nav-item-color: var(--color-text);
+  --nav-item-color-hover: var(--color-text-bright);
+  --nav-item-color-active: var(--color-primary);
+  --nav-parent-item-color: var(--color-text-bright);
+}

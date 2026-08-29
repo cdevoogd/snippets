@@ -1,0 +1,57 @@
+.app {
+  display: flex;
+  width: 100%;
+  max-width: calc(var(--sidebar-width) + var(--page-width));
+  margin: 0 auto;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-header {
+  display: none;
+}
+
+.menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-site-name {
+  color: var(--color-text-bright);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* min-width: var(--breakpoint-md), minus 1px. Media queries can't use custom properties. */
+@media (max-width: 749px) {
+  .app {
+    padding-top: var(--mobile-header-height);
+  }
+
+  .mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    height: var(--mobile-header-height);
+    padding: 0 0.75rem;
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+  }
+}
