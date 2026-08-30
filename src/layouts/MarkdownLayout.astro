@@ -56,7 +56,7 @@ const pages = await getSnippetPages();
 
   const consolePattern = /^(\$ )/gm;
   function handleCopyCode(button: Element) {
-    const codeBlock = button.parentElement?.nextElementSibling;
+    const codeBlock = button.closest(".code-wrapper")?.querySelector("pre");
     if (!codeBlock) return;
     if (!(codeBlock instanceof HTMLElement)) return;
 
@@ -73,13 +73,6 @@ const pages = await getSnippetPages();
 
     navigator.clipboard
       .writeText(text)
-      .then(() => {
-        const before = button.textContent;
-        button.textContent = "copied!";
-        setTimeout(() => {
-          button.textContent = before;
-        }, 1000);
-      })
       .catch((err) => {
         console.error("Failed to copy: ", err);
       });
@@ -88,7 +81,19 @@ const pages = await getSnippetPages();
   document.querySelectorAll(".copy-code-btn").forEach((button) => {
     button.addEventListener("click", () => {
       handleCopyCode(button);
+      button.classList.add("copied");
+      setTimeout(() => button.classList.remove("copied"), 1800);
     });
+  });
+
+  document.querySelectorAll(".code-wrapper").forEach((wrapper) => {
+    if (!(wrapper instanceof HTMLElement)) return;
+    const pre = wrapper.querySelector("pre");
+    if (!pre) return;
+    wrapper.classList.toggle("has-overflow", pre.scrollWidth > pre.clientWidth);
+    const sync = () => wrapper.classList.toggle("is-scrolled", pre.scrollLeft > 1);
+    pre.addEventListener("scroll", sync);
+    sync();
   });
 
   const app = queryElement(document, ".app", HTMLElement);

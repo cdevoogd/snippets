@@ -1,4 +1,5 @@
 .md {
+  --code-font-size: 0.875em;
   max-width: min(100%, var(--content-width));
   padding: 0rem 2rem 1rem 2rem;
   margin: 0 auto;
@@ -72,27 +73,84 @@
     vertical-align: middle;
   }
 
-  .code-header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  .code-wrapper {
+    position: relative;
 
-    border: 1px solid var(--color-border);
-    border-bottom: none;
+    &.is-scrolled {
+      .code-fade {
+        opacity: 0;
+      }
+    }
+
+    &.has-overflow pre > code {
+      padding-right: 3rem;
+    }
   }
 
   .copy-code-btn {
-    font-size: 0.75rem;
-    padding: 0.2rem;
-    text-decoration: none;
-    color: inherit;
-    border: none;
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    color: var(--color-text-muted);
     background: transparent;
+    border: none;
     cursor: pointer;
+    transition: opacity 0.15s ease;
 
     &:hover {
-      color: var(--color-primary);
+      color: var(--color-text);
+      background-color: rgba(128, 128, 128, 0.15);
     }
+
+    svg {
+      grid-area: 1 / 1;
+      width: 1rem;
+      height: 1rem;
+      transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+    }
+
+    .icon-check {
+      color: var(--color-primary);
+      opacity: 0;
+      transform: scale(0.4);
+    }
+
+    &.copied {
+      .icon-copy {
+        opacity: 0;
+        transform: scale(0.4);
+      }
+
+      .icon-check {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+  .code-fade {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    z-index: 1;
+    pointer-events: none;
+    width: 6rem;
+    font-size: var(--code-font-size);
+    height: 3rem;
+    height: calc(1rem + 1lh);
+    transition: opacity 0.15s ease;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--code-bg, var(--color-background)) 1.5rem,
+      var(--code-bg, var(--color-background)) 4rem
+    );
   }
 
   pre {
@@ -120,7 +178,7 @@
 
   code {
     font-family: var(--font-mono);
-    font-size: 0.875em;
+    font-size: var(--code-font-size);
   }
 
   /* <code> elements that are not descendents of <pre> should be inline code*/
