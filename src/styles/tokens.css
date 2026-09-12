@@ -13,11 +13,12 @@
   --color-neutral-950: oklch(14.5% 0 0);
 
   --font-sans:
-    ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica", "Arial", "Segoe UI",
-    "InterVariable", "Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    var(--font-inter) ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica", "Arial", "Segoe UI", "InterVariable", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, "Cascadia Mono", "Roboto Mono", "DejaVu Sans Mono", "Liberation Mono", Menlo, Monaco,
-    "Consolas", "Source Code Pro", monospace;
+    var(--font-geist-mono) ui-monospace, SFMono-Regular, "Cascadia Mono", "Roboto Mono",
+    "DejaVu Sans Mono", "Liberation Mono", Menlo, Monaco, "Consolas", "Source Code Pro", monospace;
 
   --color-primary: #8addff;
   --color-text: var(--color-neutral-300);

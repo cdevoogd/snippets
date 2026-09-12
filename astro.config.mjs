@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import { satteri } from "@astrojs/markdown-satteri";
 import { customCodeBlocks } from "./src/satteri-plugins.ts";
 
@@ -14,4 +14,18 @@ export default defineConfig({
       hastPlugins: [customCodeBlocks],
     }),
   },
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: "Inter",
+      cssVariable: "--font-inter",
+      fallbacks: ["ui-sans-serif"],
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: "Geist Mono",
+      cssVariable: "--font-geist-mono",
+      fallbacks: ["ui-monospace"],
+    },
+  ],
 });
