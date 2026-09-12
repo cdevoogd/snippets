@@ -1,5 +1,5 @@
 .md {
-  --code-font-size: 0.875em;
+  --code-font-size: 0.75em;
   max-width: min(100%, var(--content-width));
   padding: 0rem 2rem 1rem 2rem;
   margin: 0 auto;
