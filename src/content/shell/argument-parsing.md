@@ -2,61 +2,70 @@
 title: Argument Parsing
 ---
 
-Below is an example script that shows how to parse command-line flags in bash. Included is a help flag, a flag for toggling and option, and a flag that's used to pass additional information like a file path (or in the examples case a tag). The example also demonstrates how to properly handle shifting and checking arguments to prevent errors when using the `set -u` option in bash.
+Below is an example script that shows how to parse command-line flags in bash. Included is a help flag, a flag for toggling and option, and a flag that's used to pass additional information like a file path (or in the example's case a tag). The example also demonstrates how to properly handle shifting and checking arguments to prevent errors when using the `set -u` option in bash.
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Prepare some variables that can be set by the flags
 SKIP_VERIFICATION=false
 TAG=
+POSITIONAL_ARGS=()
 
 print_usage() {
-    echo "USAGE:"
-    echo "  $(basename "$0") [OPTIONS...]"
-    echo
-    echo "OPTIONS:"
-    echo "  -h, --help            Print this help message"
-    echo "  -t, --tag string      Set the tag"
-    echo "  --skip-verification   Skip verification when doing X"
+    cat <<EOF
+USAGE:
+  $(basename "$0") [OPTIONS...] [--] [ARGS...]
+
+OPTIONS:
+  -h, --help            Print this help message
+  -t, --tag string      Set the tag
+  --skip-verification   Skip verification when doing X
+EOF
 }
 
 handle_missing_arg() {
-    echo "Missing argument: $1"
-    print_usage
+    echo "Missing argument: $1" >&2
     exit 1
 }
 
 parse_arguments() {
-    while [[ $# -ne 0 ]] && [[ "$1" != "" ]]; do
+    while (( $# > 0 )); do
         case $1 in
-        -h | --help)
-            print_usage
-            exit
-            ;;
-        # An example of a boolean flag. This flag would not have anything following.
-        --skip-verification)
-            SKIP_VERIFICATION=true
-            ;;
-        # An example of a flag that has a value following it
-        -t | --tag)
-            # Shift forward so the associated value is in $1
-            shift
-            # Make sure the user actually passed a value
-            if [[ $# -eq 0 ]]; then handle_missing_arg "tag"; fi
-            # Now we can set it
-            TAG="$1"
-            ;;
-        # This wildcard would catch any flag that has not already been caught.
-        # If it wasn't handled, that means it's probably an unknown flag.
-        *)
-            echo "Unknown argument: $1"
-            print_usage
-            exit 1
-            ;;
+            -h | --help)
+                print_usage
+                exit 0
+                ;;
+            # Example of a basic boolean flag
+            --skip-verification)
+                SKIP_VERIFICATION=true
+                ;;
+            # Example of a flag with a value following it. This shifts forward to get the value
+            # following the flag into $1, checks that there is a value there, and then sets it.
+            -t | --tag)
+                shift
+                if (( $# == 0 )); then handle_missing_arg "tag"; fi
+                TAG="$1"
+                ;;
+            # If you want to support the --flag=value syntax, you can do something like this.
+            --tag=*)
+                TAG="${1#*=}"
+                ;;
+            # This helps to add support for `--` which is typically used to signal to stop parsing
+            # flags. Everything after it should be treated as a positional argument.
+            --)
+                shift
+                POSITIONAL_ARGS+=("$@")
+                break
+                ;;
+            -*)
+                echo "Unknown flag: $1" >&2
+                exit 1
+                ;;
+            *)
+                POSITIONAL_ARGS+=("$1")
+                ;;
         esac
-        # After each iteration we shift $1 so the next loop works on a new flag
         shift
     done
 }
@@ -65,6 +74,7 @@ main() {
     parse_arguments "$@"
     echo "SKIP_VERIFICATION: $SKIP_VERIFICATION"
     echo "TAG: $TAG"
+    echo "POSITIONAL_ARGS: ${POSITIONAL_ARGS[*]:-}"
 }
 
 main "$@"
