@@ -96,3 +96,33 @@ names=("John Doe" "Jane Doe")
 echo "${names[*]}"          # John Doe Jane Doe
 (IFS=,; echo "${names[*]}") # John Doe,Jane Doe
 ```
+
+### Safe Expansion With `set -u` or `set -o nounset`
+
+In versions of Bash before 4.4, expanding an empty array is considered the same as expanding an unset variable. If you have `set -u` or `set -o nounset` (same thing) set, this will cause the script to exit.
+
+In cases where the array may be empty, you can expand it like below to prevent the script from exiting if it is empty:
+
+```bash
+# Expanding the individual elements
+"${args[@]+"${args[@]}"}"
+# Expanding as a single string
+"${args[*]+${args[*]}}"
+```
+
+This uses Bash's **Use Alternate Value** form of parameter expansion. The left side of the plus sign will test to see if the array is set. If it is unset, it will be replaced with nothing. If it is set, then it will be replaced with whatever is on the right side of the plus sign (the array expansion).
+
+An example use case of this is a function where the caller may or may not provide additional arguments for a wrapped command:
+
+```bash
+set -u
+
+curl_wrapper() {
+    # First argument is always the URL
+    local url="$1"
+    # Everything after that can be an additional argument to pass to curl
+    local curl_args=("${@:2}")
+    # Safely expand the array so it works whether or not the caller provided additional arguments
+    curl --fail --silent "$url" "${curl_args[@]+"${curl_args[@]}"}"
+}
+```
