@@ -15,7 +15,7 @@ multi_line=(
 )
 ```
 
-Bash also allows you to define elements at specific indexes. You are not required to define the indexes in order. You can leave gaps to create a *sparse array* which can be useful if you need insert items in between the initial items later on.
+Bash also allows you to define elements at specific indexes. You are not required to define the indexes in order. You can leave gaps to create a *sparse array* which can be useful if you need to insert items in between the initial items later on.
 
 ```bash
 using_indexes=([0]=foo [1]=bar [2]=baz)
@@ -58,21 +58,25 @@ Here is a basic overview of the different ways to expand arrays:
 "${#array[@]}"  # Get the length of the array
 "${#array[1]}"  # Get the length of a specific element in the array
 
-# Get the first 2 elements of the array.
-# array=(foo bar baz) would become (foo bar)
-"${array[@]:2}"
+# Get the array elements starting at index 1
+# array=(foo bar baz) would become (bar baz)
+"${array[@]:1}"
 
 # Get the last 2 elements of the array.
 # The space is required in front of a negative value.
 # array=(foo bar baz) would become (bar baz)
 "${array[@]: -2}"
 
+# Get the first 2 elements of the array.
+# array=(foo bar baz) would become (foo bar)
+"${array[@]:0:2}"
+
 # Get a slice of the array containing 2 elements, starting at index 3
 # array=(a b c d e f) would become (d e)
 "${array[@]:3:2}"
 ```
 
-The `[*]` syntax is a bit special. While it does combine the elements of the array into a single string, you can actually control the character that's used to combine them using bash's `IFS` variable. The first character of `IFS` is what will be used to combine the elements. The default value of `IFS` is a space, tab, and newline
+The `[*]` syntax is a bit special. While it does combine the elements of the array into a single string, you can actually control the character that's used to combine them using bash's `IFS` variable. The first character of `IFS` is what will be used to combine the elements. The default value of `IFS` is a space, tab, and newline.
 
 :::caution
 Internal Bash variables like `IFS` should be always be changed in a subshell rather than the main shell process when possible. A lot of commands rely on `IFS` to determine how they behave, and changing it in the main shell can cause weird and unexpected behavior. In the example below, the `( )` subshell syntax is used for this.
@@ -86,7 +90,7 @@ words=(foo bar baz)
 echo "${words[*]}"          # foo bar baz
 (IFS=,; echo "${words[*]}") # foo,bar,baz
 
-# Being able to change to character can make it much easier to see the
+# Being able to change the character can make it much easier to see the
 # individual elements when they contain spaces.
 names=("John Doe" "Jane Doe")
 echo "${names[*]}"          # John Doe Jane Doe
