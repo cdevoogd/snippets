@@ -78,9 +78,7 @@ Here is a basic overview of the different ways to expand arrays:
 
 The `[*]` syntax is a bit special. While it does combine the elements of the array into a single string, you can actually control the character that's used to combine them using bash's `IFS` variable. The first character of `IFS` is what will be used to combine the elements. The default value of `IFS` is a space, tab, and newline.
 
-:::caution
-Internal Bash variables like `IFS` should be always be changed in a subshell rather than the main shell process when possible. A lot of commands rely on `IFS` to determine how they behave, and changing it in the main shell can cause weird and unexpected behavior. In the example below, the `( )` subshell syntax is used for this.
-:::
+Note: Internal Bash variables like `IFS` should be always be changed in a subshell rather than the main shell process when possible. A lot of commands rely on `IFS` to determine how they behave, and changing it in the main shell can cause weird and unexpected behavior. In the example below, the `( )` subshell syntax is used for this.
 
 ```bash
 # The default value of IFS is space, tab, and newline so by default this will
