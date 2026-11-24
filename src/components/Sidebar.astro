@@ -21,37 +21,39 @@ function formatCategoryTitle(category: string): string {
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <a class="sidebar-home" href="/" aria-label="Home"><HomeIcon /></a>
+    <a class="sidebar-home" href="/" aria-label="Home">
+      <HomeIcon />
+    </a>
     <div class="sidebar-search">
       <input id="sidebar-search" type="text" placeholder="Search..." autocomplete="off" spellcheck="false" />
       <kbd>/</kbd>
     </div>
   </div>
   <nav class="sidebar-tree">
-    {
-      [...pages.entries()].map(([category, snippets]) => {
-        return (
-          <section class="sidebar-section" data-category={category}>
-            <h2 class="sidebar-parent">{formatCategoryTitle(category)}</h2>
-            <ul class="sidebar-children">
-              {snippets.map((snippet) => (
-                <li>
-                  <a
-                    class:list={["sidebar-link", { active: snippet.id === currentID }]}
-                    data-name={snippet.data.title.toLowerCase()}
-                    href={getSnippetURL(snippet.id)}
-                  >
-                    {snippet.data.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        );
-      })
-    }
+    {[...pages.entries()].map(([category, snippets]) => {
+      return (
+        <section class="sidebar-section" data-category={category}>
+          <h2 class="sidebar-parent">{formatCategoryTitle(category)}</h2>
+          <ul class="sidebar-children">
+            {snippets.map((snippet) => (
+              <li>
+                <a
+                  class:list={["sidebar-link", { active: snippet.id === currentID }]}
+                  data-name={snippet.data.title.toLowerCase()}
+                  href={getSnippetURL(snippet.id)}
+                >
+                  {snippet.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })}
   </nav>
-  <p class="no-results" hidden>No snippets match your search.</p>
+  <p class="no-results" hidden>
+    No snippets match your search.
+  </p>
 </aside>
 
 <script>

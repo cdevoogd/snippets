@@ -21,7 +21,9 @@ const pages = await getSnippetPages();
 
 <Layout title={resolvedTitle}>
   <header class="mobile-header">
-    <a class="mobile-site-name" href="/">Snippets</a>
+    <a class="mobile-site-name" href="/">
+      Snippets
+    </a>
     <button class="menu-btn" type="button" aria-label="Open navigation" aria-controls="sidebar">
       <svg
         width="1em"
@@ -70,11 +72,9 @@ const pages = await getSnippetPages();
         ? codeElement.textContent.replaceAll(consolePattern, "")
         : codeElement.textContent;
 
-    navigator.clipboard
-      .writeText(text)
-      .catch((err) => {
-        console.error("Failed to copy: ", err);
-      });
+    navigator.clipboard.writeText(text).catch((err) => {
+      console.error("Failed to copy: ", err);
+    });
   }
 
   document.querySelectorAll(".copy-code-btn").forEach((button) => {
