@@ -1,5 +1,8 @@
 import { defineHastPlugin, type HastContent } from "satteri";
 
+/** HAST nodes that are valid as children of an element (i.e. everything but `root`). */
+type HastElementChild = Extract<HastContent, { type: "element" }>;
+
 const SVG_PROPS = {
   xmlns: "http://www.w3.org/2000/svg",
   width: "18",
@@ -12,7 +15,7 @@ const SVG_PROPS = {
   "aria-hidden": "true",
 };
 
-function icon(class_name: string, strokeWidth: string, paths: string[]): HastContent {
+function icon(class_name: string, strokeWidth: string, paths: string[]): HastElementChild {
   return {
     type: "element",
     tagName: "svg",
@@ -41,14 +44,14 @@ export const customCodeBlocks = defineHastPlugin({
       const match = /background-color:\s*([^;]+)/.exec(preStyle);
       const fadeStyle = match ? `--code-bg: ${match[1].trim()};` : "";
 
-      const button: HastContent = {
+      const button: HastElementChild = {
         type: "element",
         tagName: "button",
         properties: { class: "copy-code-btn", type: "button", "aria-label": "Copy code" },
         children: [copyIcon, checkIcon],
       };
 
-      const fade: HastContent = {
+      const fade: HastElementChild = {
         type: "element",
         tagName: "div",
         properties: {
