@@ -51,7 +51,7 @@
   font: inherit;
   font-size: 0.875rem;
   color: var(--color-text);
-  background-color: var(--color-background);
+  background-color: var(--color-bg);
   border: 1px solid var(--color-border);
 }
 
@@ -63,7 +63,7 @@
   font-size: 0.7rem;
   padding: 0.1rem 0.3rem;
   border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
+  color: var(--color-text-2);
   pointer-events: none;
   line-height: 1.2;
 }
@@ -83,7 +83,7 @@
 .no-results {
   margin: 0;
   padding: 0.5rem 1rem;
-  color: var(--color-text-muted);
+  color: var(--color-text-2);
 }
 
 .sidebar-tree {
@@ -102,7 +102,7 @@
   margin: 0.4rem 0;
   font: inherit;
   font-weight: 600;
-  color: var(--nav-parent-item-color);
+  color: var(--color-text-bright);
   background: none;
   border: none;
   text-align: left;
@@ -120,17 +120,19 @@
 
 .sidebar-link {
   display: block;
-  /* padding: 0.35rem 0.5rem; */
-  color: var(--nav-item-color);
+  color: var(--color-text);
   text-decoration: none;
 
   &:hover {
-    color: var(--nav-item-color-hover);
+    text-decoration: underline;
   }
 
   &.active {
-    color: var(--nav-item-color-active);
-    border-left-color: var(--color-primary);
+    &:before {
+      content: '~ ';
+    }
+    color: var(--color-primary);
+    font-weight: 600;
   }
 }
 
@@ -146,7 +148,7 @@
     flex: initial;
     padding: calc(var(--mobile-header-height) + 1rem) 0 2rem;
     overflow-y: auto;
-    background: var(--color-background-muted);
+    background: var(--color-bg-2);
     border-right: none;
   }
 

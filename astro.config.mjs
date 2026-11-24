@@ -20,6 +20,7 @@ export default defineConfig({
       name: "Inter",
       cssVariable: "--font-inter",
       fallbacks: ["ui-sans-serif"],
+      weights: [400, 600],
     },
     {
       provider: fontProviders.fontsource(),
