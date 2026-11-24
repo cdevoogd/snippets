@@ -58,6 +58,22 @@ function formatCategoryTitle(category: string): string {
 
 <script>
   const sidebar = document.querySelector(".sidebar");
+
+  // The active link might be off of the screen, so we want to make sure to scroll the sidebar
+  // to make it visible. Without scrolling, the current page might not be clear. I tried using
+  // `scrollIntoView()` originally, but it kept placing the link right on the edge of the screen.
+  // This approach is slightly more complicated, but will try and place the active link closer
+  // towards the vertical center of the sidebar when possible.
+  const activeLink = sidebar?.querySelector<HTMLElement>(".sidebar-link.active");
+  if (sidebar && activeLink) {
+    const sidebarBox = sidebar.getBoundingClientRect();
+    const activeBox = activeLink.getBoundingClientRect();
+    const edge = sidebar.clientHeight * 0.25;
+    if (activeBox.top - sidebarBox.top < edge || sidebarBox.bottom - activeBox.bottom < edge) {
+      sidebar.scrollTop += activeBox.top - sidebarBox.top - (sidebar.clientHeight - activeBox.height) / 2;
+    }
+  }
+
   const search = document.querySelector<HTMLInputElement>("#sidebar-search");
   const noResults = document.querySelector<HTMLElement>(".no-results");
 
