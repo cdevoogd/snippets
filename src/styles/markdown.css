@@ -75,16 +75,6 @@
 
   .code-wrapper {
     position: relative;
-
-    &.is-scrolled {
-      .code-fade {
-        opacity: 0;
-      }
-    }
-
-    &.has-overflow pre > code {
-      padding-right: 3rem;
-    }
   }
 
   .copy-code-btn {
@@ -98,14 +88,17 @@
     height: 1.75rem;
     padding: 0;
     color: var(--color-text-2);
-    background: transparent;
+    background-color: var(--color-bg-2);
     border: none;
+    border-radius: 0.25rem;
     cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
     transition: opacity 0.15s ease;
 
     &:hover {
       color: var(--color-text);
-      background-color: rgba(128, 128, 128, 0.15);
+      background-color: var(--color-ui-2);
     }
 
     svg {
@@ -137,23 +130,18 @@
     }
   }
 
-  .code-fade {
-    position: absolute;
-    top: 1px;
-    right: 1px;
-    z-index: 1;
-    pointer-events: none;
-    width: 6rem;
-    font-size: var(--code-font-size);
-    height: 3rem;
-    height: calc(1rem + 1lh);
-    transition: opacity 0.15s ease;
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--code-bg, var(--color-bg)) 1.5rem,
-      var(--code-bg, var(--color-bg)) 4rem
-    );
+  /* Mouse users see the button on hover; keyboard and touch users always see it. */
+  .code-wrapper:hover .copy-code-btn,
+  .copy-code-btn:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media (hover: none) {
+    .copy-code-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
   }
 
   pre {

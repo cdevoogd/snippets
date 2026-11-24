@@ -85,16 +85,6 @@ const pages = await getSnippetPages();
     });
   });
 
-  document.querySelectorAll(".code-wrapper").forEach((wrapper) => {
-    if (!(wrapper instanceof HTMLElement)) return;
-    const pre = wrapper.querySelector("pre");
-    if (!pre) return;
-    wrapper.classList.toggle("has-overflow", pre.scrollWidth > pre.clientWidth);
-    const sync = () => wrapper.classList.toggle("is-scrolled", pre.scrollLeft > 1);
-    pre.addEventListener("scroll", sync);
-    sync();
-  });
-
   const app = queryElement(document, ".app", HTMLElement);
   const menuButton = queryElement(document, ".menu-btn", HTMLButtonElement);
   if (app instanceof HTMLElement && menuButton instanceof HTMLElement) {

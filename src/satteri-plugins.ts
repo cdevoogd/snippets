@@ -40,10 +40,6 @@ export const customCodeBlocks = defineHastPlugin({
       ]);
       const checkIcon = icon("icon-check", "2", ["M2.75 9.5L6.5 13.25L15.25 4.5"]);
 
-      const preStyle = typeof node.properties.style === "string" ? node.properties.style : "";
-      const match = /background-color:\s*([^;]+)/.exec(preStyle);
-      const fadeStyle = match ? `--code-bg: ${match[1].trim()};` : "";
-
       const button: HastElementChild = {
         type: "element",
         tagName: "button",
@@ -51,22 +47,11 @@ export const customCodeBlocks = defineHastPlugin({
         children: [copyIcon, checkIcon],
       };
 
-      const fade: HastElementChild = {
-        type: "element",
-        tagName: "div",
-        properties: {
-          class: "code-fade",
-          "aria-hidden": "true",
-          style: fadeStyle,
-        },
-        children: [],
-      };
-
       const wrapper: HastContent = {
         type: "element",
         tagName: "div",
         properties: { class: "code-wrapper" },
-        children: [node, button, fade],
+        children: [node, button],
       };
 
       return wrapper;
