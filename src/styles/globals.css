@@ -7,6 +7,11 @@
 @import url("sidebar.css") layer(layout);
 
 @layer globals {
+  html {
+    /* Keep the main layout from shifting around as pages gain or lose a scrollbar */
+    scrollbar-gutter: stable;
+  }
+
   html,
   body {
     margin: 0;
