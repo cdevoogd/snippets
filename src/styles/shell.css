@@ -1,13 +1,22 @@
 .app {
   display: flex;
   width: 100%;
-  max-width: calc(var(--sidebar-width) + var(--content-width));
+  max-width: calc(var(--sidebar-width) * 2 + var(--content-width));
   margin: 0 auto;
 }
 
 .main {
   flex: 1;
   min-width: 0;
+}
+
+/*
+This is reserved for a future TOC, but right now it is used to balance the sidebar to the
+content stays centered on the page.
+*/
+.toc {
+  flex: 0 0 auto;
+  width: clamp(0px, calc(100% - var(--sidebar-width) - var(--content-width)), var(--sidebar-width));
 }
 
 .mobile-header {
@@ -36,6 +45,10 @@
 @media (max-width: 48rem) {
   .app {
     padding-top: var(--mobile-header-height);
+  }
+
+  .toc {
+    display: none;
   }
 
   .mobile-header {
